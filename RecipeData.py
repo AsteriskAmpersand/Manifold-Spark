@@ -41,7 +41,6 @@ TextRecipe(
     output = "Copper Ore",
     inputs = [],
     processing_time = 10,
-    #active = False
     )
 
 #Ore Miner production speed is given by 60/(level+1)
@@ -73,8 +72,7 @@ TextRecipe(
     output = "Tree Bark",
     output_amount = 2,
     inputs = [("Wooden Log",1)],
-    processing_time = 8, 
-    #active = False
+    processing_time = 8
     )
 
 TextRecipe(
@@ -150,8 +148,7 @@ TextRecipe(
     output = "Limestone",
     output_amount = 3,
     inputs = [("Coral",4)],
-    processing_time = 16,
-    #active = False
+    processing_time = 16
     )
 
 TextRecipe(
@@ -159,8 +156,7 @@ TextRecipe(
     output = "Stone",
     output_amount = 2,
     inputs = [("Limestone",4)],
-    processing_time = 8,
-    #active = False
+    processing_time = 8
     )
 
 TextRecipe(
@@ -168,8 +164,7 @@ TextRecipe(
     output = "Coral",
     output_amount = 8,
     inputs = [("Fluted Coral",1)],
-    processing_time = 32,
-    #active = False
+    processing_time = 32
     )
 
 TextRecipe(
@@ -451,8 +446,7 @@ TextRecipe(
     output_amount = 2,
     inputs = [("Small Vial",2),
               ("Miasma",2)],
-    processing_time = 16,
-    active = True
+    processing_time = 16
     )
 
 TextRecipe(
@@ -503,8 +497,7 @@ TextRecipe(
     output = "Quartz",
     output_amount = 1,
     inputs = [("Limestone",3)],
-    processing_time = 8,
-    active = False
+    processing_time = 8
     )
 
 
@@ -537,8 +530,7 @@ TextRecipe(
     output = "Copper Ingot",
     output_amount = 1,
     inputs = [("Copper Sap",1)],
-    processing_time = 24,
-    active = False
+    processing_time = 24
     )
 
 TextRecipe(

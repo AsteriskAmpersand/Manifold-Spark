@@ -100,42 +100,46 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
         if sout and self.resource in sout.sockets_in:
             sout.sockets_in[self.resource] = nnode
         self.remove()
-        return nnode
-    
-    def _substitute_graph(self,graph):
-        end_node = graph.end_node
-        nnode = end_node.terminal
-        if nnode is None:
-            raise ValueError("Cannot substitute incomplete network")
-        self._substitute_node(nnode.copy(self.parent))
-        return nnode
-            
+        return nnode            
         
     def adjust_quantity(self,numerator,denominator,fset = False):
         old_quantity = self.quantity
         new_quantity = Fraction(numerator,denominator)
         if fset:
             self.quantity = new_quantity
-            rate = new_quantity / old_quantity
+            rate = Fraction(new_quantity, old_quantity)
         else:
             self.quantity *= new_quantity
             rate = new_quantity
         for rsr, node in self.sockets_in.items():
             if node is not None:
                 node.adjust_quantity(rate.numerator,rate.denominator)
+        return new_quantity
     
     def _substitute_node(self,node):
-        for target in self.sockets_out.values():
-            if target is not None:
-                target.retarget(self,node)
+        res = self.resource
+        old_production = Fraction(self.recipe.output_map[res]*self.quantity,self.recipe.processing_time)
+        new_production = Fraction(node.recipe.output_map[res],node.recipe.processing_time)
+        rate = old_production/new_production
+        node.adjust_quantity(rate.numerator,rate.denominator,fset = True)
+        target = self.sockets_out[self.resource]
+        node.sockets_out[self.resource] = target  
+        if target is not None:
+            target.retarget(self,node)
+
+        self.remove()
+        return node
     
     def substitute(self,obj):
         #if type(obj) is ProductionGraph:
         #    self._substitute_graph(obj)
+        if hasattr(obj,"terminal"):
+            obj.terminal = self.terminal
         if type(obj) is Recipe:
+            print("Recipe Substitution")
             return self._substitute_recipe(obj)
         if type(obj) is ProductionGraphRecipeNode:
-            return self._substitue_node(obj.copy(self.parent))
+            return self._substitute_node(obj.copy(self.parent))
     
     def remove(self):
         if self.parent:
@@ -159,7 +163,6 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
                 nnode.sockets_in[key] = copied_input
                 copied_input.sockets_out[key] = nnode
         return nnode
-        #raise NotImplemented("Copy needs implementation")
     
     def retarget(self,old,new):
         for key,val in self.sockets_in.items():
