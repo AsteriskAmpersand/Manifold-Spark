@@ -1,0 +1,49 @@
+[
+  {
+    "recipe": "Plant Extractor [1 Coral Seed -> 3 Limestone + 3 Coral]",
+    "qNum": 4,
+    "qDenom": 3,
+    "resource": "Coral",
+    "terminal": false,
+    "in": {
+      "Coral Seed": 1
+    },
+    "out": {
+      "Coral": 2
+    }
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Coral Seed]",
+    "qNum": 1,
+    "qDenom": 48,
+    "resource": "Coral Seed",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Coral Seed": 0
+    }
+  },
+  {
+    "recipe": "Greenhouse [20 Coral + 10 Fertiliser -> 20 Coral Seed]",
+    "qNum": 1,
+    "qDenom": 1,
+    "resource": "Coral Seed",
+    "terminal": true,
+    "in": {
+      "Coral": 0,
+      "Fertiliser": 3
+    },
+    "out": {}
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Fertiliser]",
+    "qNum": 1,
+    "qDenom": 32,
+    "resource": "Fertiliser",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Fertiliser": 2
+    }
+  }
+]

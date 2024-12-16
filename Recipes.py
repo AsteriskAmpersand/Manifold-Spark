@@ -9,6 +9,8 @@ from Resources import Resources
 from Facilities import Facilities
 from util import to_str
 
+import json
+
 
 class RecipeList():
     def __init__(self):
@@ -145,7 +147,7 @@ class RecipeList():
         print("="*64)
         print()
     
-# Recipe Ratio		Input# x CraftRate / InputCraftRate		
+# Recipe Ratio        Input# x CraftRate / InputCraftRate        
         
 Recipes = RecipeList()
 
@@ -237,6 +239,7 @@ class Recipe():
         return "%s [%s -> %s {%ds}] "%(self.fullname,
                                ', '.join(("%s x%d"%(i,a) for i,a in self.inputs)),
                                self.output,self.processing_time)
+            
 
 for resource in Resources:
     Recipe(

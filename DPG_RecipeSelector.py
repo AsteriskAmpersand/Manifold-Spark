@@ -95,13 +95,11 @@ def populate_from_recipe_list(recipe_list,path,name_generator):
 
 def recipe_selector():
     with dpg.child_window(border = False,tag="recipe"):
-        with dpg.tree_node(label="Base Recipes",tag="recipe/base"):
+        with dpg.tree_node(label="Base Chains",tag="recipe/base"):
             dpg.add_separator()
             with dpg.tree_node(label="By Facility",tag="recipe/base/facility"):
                 populate_by_facility(Facilities)
             with dpg.tree_node(label="By Resource",tag="recipes/base/resource"):
                 populate_by_resource(Resources)
         with dpg.tree_node(label="User Chains",tag="recipes/user"):
-            dpg.add_separator()
-        #with dpg.tree_node(label="User Closed Chains",tag="recipes/closed_chain"):
-        #    dpg.add_separator()
+            pass

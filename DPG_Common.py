@@ -7,7 +7,7 @@ Created on Mon Dec 16 10:02:49 2024
 import dearpygui.dearpygui as dpg
 
 UserGraphs = {}
-UserRecipes = {}
+UserClosures = {}
 
 
 def get_terminal(*args,**kwargs):

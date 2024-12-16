@@ -5,9 +5,10 @@ Created on Mon Dec 16 09:58:33 2024
 @author: Asterisk
 """
 import DPG_Prompts as prompt
-from DPG_Common import UserGraphs, get_terminal
-from DPG_GraphOps import add_user_chain,display_node,load_graph
+from DPG_Common import UserGraphs, UserClosures, get_terminal
+from DPG_GraphOps import display_node,load_graph
 from ProductionGraph import ProductionGraphRecipeNode
+from ClosedRecipe import ClosedRecipe
 from FileOps import get_file, get_files, get_folder
 
 import dearpygui.dearpygui as dpg
@@ -64,7 +65,31 @@ def menu_load_graph(sender,app_data,user_data):
     terminal = _import_graph(inpath)
     if not terminal: return
     load_graph(terminal)
-    
+
+def user_graph_callback(sender,app_data,user_data):
+    load_graph(user_data.copy())
+    dpg.set_value("node_editor_name",dpg.get_item_label(sender))
+
+def add_user_chain(terminal_node):
+    target = "recipes/user"
+    name = terminal_node.visual_name
+    tag = "recipes/user/%s"%name
+    if name in UserGraphs:
+        UserGraphs[name] = terminal_node.copy()
+        UserClosures[name] = ClosedRecipe(terminal_node.copy())
+        dpg.set_item_user_data(tag,UserGraphs[name])
+        return
+    tnc = terminal_node.copy()
+    UserGraphs[terminal_node.visual_name] = tnc
+    UserClosures[terminal_node.visual_name] = ClosedRecipe(tnc)
+    b = dpg.add_button(parent = target,
+                       label = name,
+                       user_data = UserGraphs[terminal_node.visual_name],
+                       tag = tag,
+                       width = -1,
+                       callback = user_graph_callback)
+    dpg.bind_item_theme(b,"base_theme")
+
 
 
 @prompt.promptable(prompt.text_prompt,"Save Name","Please insert a name for this production chain")
@@ -93,7 +118,7 @@ def serialize(sender,app_data,user_data):
                                         label = label):
                 dpg.add_input_text(default_value = text,readonly = True,
                                    height = -1, width = -1, multiline = True)
-            #print(text)
+
 
 def visual_menubar():
     with dpg.viewport_menu_bar(tag = "menu_bar"):
@@ -105,5 +130,4 @@ def visual_menubar():
             dpg.add_menu_item(label="Save", callback = save_graph)
             dpg.add_menu_item(label="Save As", callback = save_as_graph)
             dpg.add_menu_item(label="Load", callback = menu_load_graph)
-            #dpg.add_menu_item(label="Pack", callback = pack_graph)
             dpg.add_menu_item(label="Serialize", callback = serialize)

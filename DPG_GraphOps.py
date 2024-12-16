@@ -4,7 +4,7 @@ Created on Mon Dec 16 10:07:30 2024
 
 @author: Asterisk
 """
-from DPG_Common import UserGraphs
+from DPG_Common import UserGraphs,UserClosures
 
 import dearpygui.dearpygui as dpg
 from fractions import Fraction
@@ -46,6 +46,7 @@ def substitute_recipe_callback(sender,_,user_data):
                                              #target_socket = prod_node.visual_target_socket)
     displace_lower_nodes(y,yp-my,nprod_node)
     nxt = nprod_node.sockets_out[nprod_node.resource]
+    return nprod_node
     
 def propagate_visual_deletion(prod_node):
     x,y = dpg.get_item_pos(prod_node.visual_node)
@@ -96,6 +97,14 @@ def populate_substitution(sender,app_data,user_data):
         if prod_node.resource in node.recipe.output_map:
             label = user_chain
             dpg.add_button(label = label, user_data = (prod_node,node), callback = substitute_recipe_callback)
+    dpg.add_separator()
+    for closure_name,recipe in UserClosures.items():
+        if prod_node.resource in recipe.output_map:
+            label = "Closure[%s]"%closure_name
+            def closure_callback(s,a,u):
+                nprod_node = substitute_recipe_callback(s,a,u)
+                dpg.set_item_label(nprod_node.visual_node,label)                
+            dpg.add_button(label = label, user_data = (prod_node,recipe), callback = closure_callback)
             
 
 def build_visual_node(prod_node):
@@ -170,25 +179,4 @@ def load_graph(graph):
     target = "node_editor"
     dpg.delete_item(target,children_only = True)
     production_graph_to_node_graph(graph, target, enabled = True)
-    display_node(target,graph)
-    
-def add_user_chain(terminal_node):
-    target = "recipes/user"
-    name = terminal_node.visual_name
-    if name in UserGraphs:
-        UserGraphs[name] = terminal_node.copy()
-        return
-    UserGraphs[terminal_node.visual_name] = terminal_node.copy()
-    tag = "recipe/user/%s"%name
-    b = dpg.add_button(parent = target,
-                       label = name,
-                       user_data = terminal_node,
-                       tag = tag,
-                       width = -1,
-                       callback = user_graph_callback)
-    dpg.bind_item_theme(b,"base_theme")
-
-def user_graph_callback(sender,app_data,user_data):
-    load_graph(user_data.copy())
-    dpg.set_value("node_editor_name",dpg.get_item_label(sender))
-    
+    display_node(target,graph)   

@@ -10,6 +10,7 @@ from Recipes import Recipe,Recipes
 from util import to_str
 
 from fractions import Fraction
+from collections import defaultdict
 
 def find_compressor_recipe(resource):
     facility = Facilities["Compressor"]
@@ -61,12 +62,7 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
             resource = next(self.output_map.keys())
         self.resource = resource
         for rsr in self.recipe.output_map:
-            self.sockets_out[rsr] = None #ProductionGraphRecipeNode(
-        #                                find_compressor_recipe(rsr),
-        #                                recipeQuantity(recipe,
-        #                                               find_compressor_recipe(rsr),
-        #                                               rsr,
-        #                                               quantity))
+            self.sockets_out[rsr] = None
         if outputs:
             for resource,node in outputs.items():
                 if resource in self.sockets_out:
@@ -81,6 +77,31 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
                                                                                recipe,inp,
                                                                                quantity),
                                                      parent = self.parent)
+                           
+    def total_outputs(self):
+        outputs = defaultdict(int)
+        for res,node in self.sockets_out.items():
+            if node is None:
+                outputs[res] += Fraction(self.recipe.output_map[res]*self.quantity,self.recipe.processing_time)
+        for res,node in self.sockets_in.items():
+            if node:
+                outs = node.total_outputs()
+                for key in outs:
+                    outputs[key] += outs[key]
+        return outputs
+    
+    def total_inputs(self):
+        inputs = defaultdict(lambda: 0)
+        for res,node in self.sockets_in.items():
+            if node:
+                if node.recipe.raw:
+                    inputs[res] += Fraction(node.recipe.output_map[res]*node.quantity,node.recipe.processing_time)
+                else:
+                    inps = node.total_inputs()
+                    for key in inps:
+                        inputs[key] += inps[key]
+        return inputs
+                           
     def terminate(self,resource,endNode):
         if self.resource != resource:
             raise ValueError("Resource termination does not match graph node focus resource")
@@ -135,11 +156,11 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
         #    self._substitute_graph(obj)
         if hasattr(obj,"terminal"):
             obj.terminal = self.terminal
-        if type(obj) is Recipe:
-            print("Recipe Substitution")
+        if isinstance(obj,Recipe):
             return self._substitute_recipe(obj)
-        if type(obj) is ProductionGraphRecipeNode:
+        if isinstance(obj,ProductionGraphRecipeNode):
             return self._substitute_node(obj.copy(self.parent))
+        raise NotImplementedError("Substitution not implemented for type %s"%type(obj))
     
     def remove(self):
         if self.parent:
@@ -214,11 +235,13 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
 
     def __serialize__(self,depth,output,self_line = True):
         tabStr = "    "*depth
-        fac = self.recipe.facility
+        fac = self.recipe.facility.name
+        if self.recipe.raw:
+            fac += " (%s)"%self.recipe.output
         amount = self.quantity
         basics = [(fac,amount)] \
                     if not self.sockets_in.items() else []
-        stations = [(fac,amount)] if "Spark" in fac.name else []
+        stations = [(fac,amount)] if "Spark" in fac else []
         if self_line:
             output += tabStr+"%s %s"%(to_str(amount),self.recipe.fullname) + "\n"
         for resource, socket in self.sockets_in.items():
@@ -317,37 +340,33 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
     def __hash__(self):
         return hash(repr(self))
 
-"""
-class ProductionGraphEndNode(ProductionGraphNode):
-    def __init__(self, resource, terminalNode = None, rate = None, parent = None):
-        self.resource = resource
-        self.terminal = None
-        if terminalNode is not None:
-            rate = Fraction(terminalNode.quantity * terminalNode.recipe.output_map[resource],
-                            terminalNode.recipe.processing_time)
-            terminalNode.terminate(resource,self)
-            self.terminal = terminalNode
-        else:
-            if rate is None:
-                rate = Fraction(1)
-            else:
-                if type(rate) is float:
-                    raise TypeError("Rate must be a Fraction")
-                if type(rate) is int:
-                    rate = Fraction(rate)
-        self.rate = rate
-        self.parent = parent
-        if self.parent:
-            parent.add_end_node(self)
-    
-    def retarget(self,old,new):
-        if self.terminal == old:
-            self.terminal = new
-            self.rate = Fraction(old.quantity * old.recipe.output_map[self.resource],
-                                 old.recipe.processing_time)
-"""
             
 BaseGraphs = {recipe:ProductionGraphRecipeNode(recipe,resource = resource)
               for resource in Recipes.recipes.keys()
               for recipe in Recipes.recipes[resource] 
               }
+if __name__ in "__main__":
+    """
+    for r in BaseGraphs:
+        if "Plant" in r.facility.name:
+            w = r
+            
+    BGL = list(BaseGraphs.keys())
+    import random
+    for _ in range(20):
+        ix = random.randint(0,len(BaseGraphs))
+        i = BGL[ix]
+        w = BaseGraphs[i]
+        print(w.serialize())
+        print(dict(map(lambda x: (x[0].name,x[1]), w.total_outputs().items())))
+        print(dict(map(lambda x: (x[0].name,x[1]), w.total_inputs().items())))
+        print()
+        print()
+"""
+    import json
+    from Recipes import ClosedRecipe
+    with open(r'D:/Oddsparks/Scripts/Oddsparks-Production-Editor/test_recipes/Closed Coral.json') as inf:
+        jn = json.load(inf)
+        g = ProductionGraphRecipeNode.UnpackNetwork(jn)
+        r = ClosedRecipe(g)
+       
