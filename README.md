@@ -9,6 +9,6 @@ This utility allows customizing supply lines and automatically optimizes the rat
 Python 3.2+, wingui32, win32con, dearpygui
 
 # Usage
-At the moment there's no precompiled executable so running the source through a local python install is the most direct way of getting it working. 
+[Simply download the executable and run it.](https://github.com/AsteriskAmpersand/Manifold-Spark/releases)
 
-Select a base chain and you can edit non-final machines by right clickign and performing substitutions. You can save chains and load. If a chain's raw inputs (Manual Collection per Second) and un-taken outputs are the same then, when saved as a user recipe it also can be used in cyclic mode.
+Select a base chain and you can edit non-final machines by right clickign and performing substitutions. You can save chains and load them back up. If a chain's raw inputs (Manual Collection per Second) and un-taken outputs are the same, then, when saved as a user recipe, it also can be used in cyclic mode which assumes the outputs are used to feed the start of the chain up until fulfilment.
