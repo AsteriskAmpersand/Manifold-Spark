@@ -57,8 +57,8 @@ if __name__ == '__main__':
 
     dpg.create_context()
     dpg.create_viewport(title='Oddsparks Production Chain Builder', width=600, height=600)
-    dpg.set_viewport_small_icon("./MathySpark.ico")
-    dpg.set_viewport_large_icon("./MathySpark.ico")
+    dpg.set_viewport_small_icon("./ManifoldSpark.ico")
+    dpg.set_viewport_large_icon("./ManifoldSpark.ico")
     main_window()
     dpg.set_primary_window("main",True)
     dpg.setup_dearpygui()
