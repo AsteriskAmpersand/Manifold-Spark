@@ -5,6 +5,7 @@ Created on Fri Dec 13 02:13:55 2024
 @author: Asterisk
 """
 from Resources import Resources
+from util import resource_path
 
 Facilities = {}
 
@@ -28,7 +29,7 @@ class Facility():
         return self.name
  
         
-with open("Facility.dat","r") as inf:
+with open(resource_path("Facility.dat"),"r") as inf:
     for line in inf:
         name,temp,build_cost = line.strip().lstrip().split(",")
         temp = None if not temp else int(temp)

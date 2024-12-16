@@ -10,8 +10,15 @@ from pathlib import Path
 from tkinter import Tk
 from tkinter.filedialog import askdirectory
 # shows dialog box and return the path
+import sys,os
 
-pathmem = str(Path(__file__).parent.resolve())
+if getattr(sys, 'frozen', False):
+    application_path = os.path.dirname(sys.executable)
+elif __file__:
+    application_path = os.path.dirname(__file__)
+
+
+pathmem = application_path
 
 
 def get_folder():
@@ -26,26 +33,29 @@ def _get_file(multi = False, save = False):
     file_types = "Json Files\0*.json\0Other file types\0*.*\0"
     customfilter = ""
     multiflag = win32con.OFN_ALLOWMULTISELECT if multi else 0
-    if save:
-        fname, customfilter, flags = win32gui.GetSaveFileNameW(
-            InitialDir=pathmem,
-            Flags= multiflag | win32con.OFN_EXPLORER | win32con.OFN_NOCHANGEDIR,
-            DefExt="json",
-            Title="Select Files",
-            Filter=file_types,
-            CustomFilter=customfilter,
-            FilterIndex=1,
-            )
-    else:
-        fname, customfilter, flags = win32gui.GetOpenFileNameW(
-            InitialDir=pathmem,
-            Flags= multiflag | win32con.OFN_EXPLORER | win32con.OFN_NOCHANGEDIR,
-            DefExt="json",
-            Title="Select Files",
-            Filter=file_types,
-            CustomFilter=customfilter,
-            FilterIndex=1,
-            )
+    try:
+        if save:
+            fname, customfilter, flags = win32gui.GetSaveFileNameW(
+                InitialDir=pathmem,
+                Flags= multiflag | win32con.OFN_EXPLORER | win32con.OFN_NOCHANGEDIR,
+                DefExt="json",
+                Title="Select Files",
+                Filter=file_types,
+                CustomFilter=customfilter,
+                FilterIndex=1,
+                )
+        else:
+            fname, customfilter, flags = win32gui.GetOpenFileNameW(
+                InitialDir=pathmem,
+                Flags= multiflag | win32con.OFN_EXPLORER | win32con.OFN_NOCHANGEDIR,
+                DefExt="json",
+                Title="Select Files",
+                Filter=file_types,
+                CustomFilter=customfilter,
+                FilterIndex=1,
+                )
+    except:
+        fname = ""
     if "\0" in fname:
         pathmem = fname.split("\0")[0]
     else:

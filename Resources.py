@@ -4,7 +4,7 @@ Created on Fri Dec 13 02:13:06 2024
 
 @author: Asterisk
 """
-
+from util import resource_path
 Resources = {}
 
 class Resource():
@@ -25,6 +25,6 @@ class Resource():
     def __hash__(self):
         return hash(self.name)
         
-with open("Resources.dat","r") as inf:
+with open(resource_path("Resources.dat"),"r") as inf:
     for line in inf:
         Resource(line.strip().lstrip())

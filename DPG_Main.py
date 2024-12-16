@@ -6,7 +6,7 @@ Created on Fri Feb  9 11:39:51 2024
 """
 from fractions import Fraction
 
-
+from util import resource_path
 from DPG_MenuBar import visual_menubar
 from DPG_RecipeSelector import recipe_selector
 
@@ -57,8 +57,8 @@ if __name__ == '__main__':
 
     dpg.create_context()
     dpg.create_viewport(title='Oddsparks Production Chain Builder', width=600, height=600)
-    dpg.set_viewport_small_icon("./ManifoldSpark.ico")
-    dpg.set_viewport_large_icon("./ManifoldSpark.ico")
+    dpg.set_viewport_small_icon(resource_path("./ManifoldSpark.ico"))
+    dpg.set_viewport_large_icon(resource_path("./ManifoldSpark.ico"))
     main_window()
     dpg.set_primary_window("main",True)
     dpg.setup_dearpygui()
