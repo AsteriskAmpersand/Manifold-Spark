@@ -106,7 +106,7 @@ def node_editor():
 
 def scale_settings():
     with dpg.font_registry():
-        Com.FONT_SIZES = { z:dpg.add_font("./OpenSans-VariableFont_wdth,wght.ttf", round(16*z/100))  for z in Com.ZOOM_LEVELS}
+        Com.FONT_SIZES = { z:dpg.add_font(resource_path("./OpenSans-VariableFont_wdth,wght.ttf"), round(16*z/100))  for z in Com.ZOOM_LEVELS}
             # first argument ids the path to the .ttf or .otf file
             #default_font = dpg.add_font("NotoSerifCJKjp-Medium.otf", 20)
 
