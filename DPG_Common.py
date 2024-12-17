@@ -24,7 +24,7 @@ def reset_zoom():
     CURRENT_SCALE = (1,1)
     PREV_SCALE = (1,1)
     RATIO = 1
-    dpg.set_value("node_editor_zoom",ZOOM_LEVELS[CURRENT_ZOOM])
+    dpg.set_value("node_editor_zoom","%d%%"%ZOOM_LEVELS[CURRENT_ZOOM])
 
 def get_terminal(*args,**kwargs):
     for child_index in dpg.get_item_children("node_editor",1):
