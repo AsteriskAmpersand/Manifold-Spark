@@ -9,6 +9,22 @@ import dearpygui.dearpygui as dpg
 UserGraphs = {}
 UserClosures = {}
 
+ZOOM_LEVELS = list(range(30,180,10))
+CURRENT_ZOOM = ZOOM_LEVELS.index(100)
+CURRENT_SCALE = (1,1)
+PREV_SCALE = (1,1)
+FONT_SIZES = {}
+RATIO = 1
+ZOOM_ID = None
+
+def reset_zoom():
+    global ZOOM_LEVELS, CURRENT_ZOOM, CURRENT_SCALE, PREV_SCALE, RATIO
+    ZOOM_LEVELS = list(range(30,180,10))
+    CURRENT_ZOOM = ZOOM_LEVELS.index(100)
+    CURRENT_SCALE = (1,1)
+    PREV_SCALE = (1,1)
+    RATIO = 1
+    dpg.set_value("node_editor_zoom",ZOOM_LEVELS[CURRENT_ZOOM])
 
 def get_terminal(*args,**kwargs):
     for child_index in dpg.get_item_children("node_editor",1):
