@@ -13,7 +13,7 @@ import DPG_Common as Com
 X_BASE = 600
 Y_BASE = 250
 HORIZONTAL = -250
-VERTICAL = 125
+VERTICAL = 135
 
 def horizontal():
     return HORIZONTAL * Com.CURRENT_SCALE[0]

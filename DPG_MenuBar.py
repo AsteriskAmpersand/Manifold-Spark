@@ -67,8 +67,10 @@ def menu_load_graph(sender,app_data,user_data):
     load_graph(terminal)
 
 def user_graph_callback(sender,app_data,user_data):
-    load_graph(user_data.copy())
+    graph = user_data.copy()
+    load_graph(graph)
     dpg.set_value("node_editor_name",dpg.get_item_label(sender))
+    graph.visual_name = dpg.get_item_label(sender)
 
 def add_user_chain(terminal_node):
     target = "recipes/user"
@@ -94,17 +96,28 @@ def add_user_chain(terminal_node):
 
 @prompt.promptable(prompt.text_prompt,"Save Name","Please insert a name for this production chain")
 def save_as_graph(sender,app_data,user_data,prompt_response):
+    if not prompt_response:
+        #print("No Prompt Response")
+        return
     terminal = get_terminal()
     if not terminal:
         return
-    terminal.visual_name = prompt_response
+    match = False
+    if hasattr(terminal,"visual_name"):
+        match = terminal.visual_name == prompt_response
     #dpg.set_item_label(terminal.visual_node, prompt_response)
     def overwrite_chain():
-        UserGraphs[prompt_response] = terminal
-    if prompt_response in UserGraphs:
+        node = terminal.copy()
+        node.visual_name = prompt_response
+        UserGraphs[prompt_response] = node
+        dpg.set_value("node_editor_name",node.visual_name)
+        dpg.set_item_user_data("recipes/user/%s"%prompt_response,UserGraphs[prompt_response])
+    if prompt_response in UserGraphs and not match:
         prompt.binary_prompt(overwrite_chain,"Overwrite Chain?","There's an already existing chain with that name, overwrite?")
     else:
+        terminal.visual_name = prompt_response
         _save_graph(terminal)
+        dpg.set_value("node_editor_name",terminal.visual_name)
     
 def serialize(sender,app_data,user_data):
     for child_index in dpg.get_item_children("node_editor",1):
