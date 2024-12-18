@@ -63,6 +63,7 @@ def propagate_visual_deletion(prod_node):
     return y
 
 def ratio_change(_,__,user_data):
+    
     num = dpg.get_value(user_data.visual_num)
     denom = dpg.get_value(user_data.visual_denom)
     if denom < 1:
@@ -120,7 +121,7 @@ def closure_adjustment(sender,app_data,user_data):
     dpg.set_value(prod_node.visual_denom,qp.denominator)
     ratio_change(sender,app_data,prod_node)
     dpg.configure_item(dpg.get_item_parent(sender),show = False)
-
+    
 def build_visual_node(prod_node):
     enabled = prod_node.terminal
     if not enabled:
@@ -137,13 +138,21 @@ def build_visual_node(prod_node):
             num,denom = node_amount.numerator,node_amount.denominator
             att_num = dpg.add_input_int(label="", default_value = num,min_value = 0, 
                                         user_data = prod_node,
-                                        enabled = enabled, width = 40, min_clamped = True,
-                                        callback = ratio_change, step = 0)
+                                        enabled = enabled, width = 40, min_clamped = True, 
+                                        step = 0)
             att_sep = dpg.add_text(default_value="/")
             att_denom = dpg.add_input_int(label="", min_value = 1, default_value = denom,
                                           user_data = prod_node,
-                                          enabled = enabled, width = 40, min_clamped = True,
-                                          callback = ratio_change, step = 0)
+                                          enabled = enabled, width = 40, min_clamped = True, 
+                                          step = 0)
+            with dpg.item_handler_registry() as registry:
+                handler = dpg.add_item_deactivated_after_edit_handler(user_data = prod_node,
+                                                                      callback = ratio_change)
+                dpg.bind_item_handler_registry(att_num,registry)
+            with dpg.item_handler_registry() as registry:
+                dpg.add_item_deactivated_after_edit_handler(user_data = prod_node,
+                                                            callback = ratio_change)
+                dpg.bind_item_handler_registry(att_denom,registry)
             prod_node.visual_num = att_num
             prod_node.visual_denom = att_denom
             prod_node.visual_components["quantity"] = [att_num,att_sep,att_denom]
