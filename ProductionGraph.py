@@ -118,6 +118,8 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
     def closure_equivalence(self,resource):
         outputs = self.total_outputs()
         _,closure_outputs = self.closure()
+        if closure_outputs[resource] <= 0:
+            return self.quantity
         return Fraction(outputs[resource],closure_outputs[resource])*self.quantity
     
     def terminate(self,resource,endNode):
@@ -208,7 +210,7 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
             if val == old:
                 self.sockets_in[key] = new
 
-    def header(self):
+    def header(self,output = None):
         result = ""
         def print(*args,sep = ' ',end = '\n'):
             nonlocal result
@@ -216,21 +218,29 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
         print("="*64)
         recipe = self.recipe
         facility_amount = (to_str(self.quantity)+" ") if self.quantity != 1 else ""
-        if type(recipe.output) is list:
-            ix = 0
-            main_amount = recipe.output_amount[ix]
-            ln = "%s [%du/%ds]"%(recipe.output[0],
-                               main_amount,recipe.processing_time)
-            for idx,item in enumerate(recipe.output):
-                if idx != ix:
-                    nl = " + %s [%du/%ds]"%(item,
-                                   recipe.output_amount[idx],recipe.processing_time)
-                    if len(ln + nl) > 32:
-                        print(ln)
-                        ln = nl
-                    else:
-                        ln += nl
-            print(ln)
+        if output is None:
+            output = recipe.output_map
+        if isinstance(output,dict):
+            if output:
+                res = next(iter(output.keys()))
+                if self.resource:
+                    if self.resource in output:
+                        res = self.resource
+                main_amount = Fraction(output[res]*self.quantity,recipe.processing_time)
+                
+                ln = "%s [%du/%ds]"%(res.name,
+                                   main_amount.numerator,
+                                   main_amount.denominator)
+                for resx,amt in output.items():
+                    if resx != res:
+                        nl = " + %s [%du/%ds]"%(resx.name,
+                                       output[resx],recipe.processing_time)
+                        if len(ln + nl) > 32:
+                            print(ln)
+                            ln = nl
+                        else:
+                            ln += nl
+                print(ln)
             print(facility_amount+str(recipe.fullname))
         else:
             print("%s%s [%du/%ds] - %s"%(facility_amount,recipe.output,
@@ -249,22 +259,46 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
         output,basics,stations = self.__serialize__(1,"",self_line = False)
         basic = self.display_cumulative(basics,stations)
         return header + output + basic
+    
+    def serialize_closure(self):
+        nins,nouts = self.closure()
+        tins,touts = self.total_inputs(),self.total_outputs()
+        rin_ratio = {key:(nins[key] if (key in nins or key in nouts) else 0)/tins[key] 
+                     for key in tins if tins[key] != nins[key]}
+        per_fac_out = {r:Fraction(o*self.recipe.processing_time,self.quantity) for r,o in nouts.items()}
+        header = self.header(per_fac_out)
+        output,basics,stations = self.__serialize__(1,"",self_line = False,input_scale = rin_ratio)
+        basic = self.display_cumulative(basics,stations)
+        return header + output + basic
 
 
-    def __serialize__(self,depth,output,self_line = True):
+    def __serialize__(self,depth,output,self_line = True,input_scale = {}):
         tabStr = "    "*depth
         fac = self.recipe.facility.name
         if self.recipe.raw:
+            if self.resource in input_scale:
+                if input_scale[self.resource] <= 0:
+                    fac = "%s Self-Supply from Outputs"%self.resource
+                else:
+                    fac += " + Self-Supply"
             fac += " (%s)"%self.recipe.output
-        amount = self.quantity
+        adj = input_scale[self.resource] if self.recipe.raw and self.resource in input_scale else 1
+        amount = self.quantity * adj
         basics = [(fac,amount)] \
-                    if not self.sockets_in.items() else []
+                    if not self.sockets_in.items() and amount else []
         stations = [(fac,amount)] if "Spark" in fac else []
         if self_line:
-            output += tabStr+"%s %s"%(to_str(amount),self.recipe.fullname) + "\n"
+            recipename = self.recipe.fullname
+            if self.recipe.raw and self.resource in input_scale:
+                if input_scale[self.resource]:
+                    recipename += " + Self-Supplied"
+                else:
+                    recipename = "Self-Supplied"
+            output += tabStr+"%s %s"%(to_str(amount) if amount else "%s Fully"%self.resource.name,
+                                      recipename) + "\n"
         for resource, socket in self.sockets_in.items():
             if socket is not None:
-                output,b,s = socket.__serialize__(depth+1, output)
+                output,b,s = socket.__serialize__(depth+1, output,input_scale = input_scale)
                 basics += b
                 stations += s
         return output,basics,stations
@@ -380,11 +414,21 @@ if __name__ in "__main__":
         print(dict(map(lambda x: (x[0].name,x[1]), w.total_inputs().items())))
         print()
         print()
-"""
+
     import json
     from Recipes import ClosedRecipe
     with open(r'D:/Oddsparks/Scripts/Oddsparks-Production-Editor/test_recipes/Closed Coral.json') as inf:
         jn = json.load(inf)
         g = ProductionGraphRecipeNode.UnpackNetwork(jn)
         r = ClosedRecipe(g)
-       
+"""
+    for r in BaseGraphs:
+        if "Furnace" in r.facility.name:
+            for re,a in r.output_map.items():
+                if re.name == "Copper Seed":
+                    s = BaseGraphs[r]
+    print(s.serialize())
+    print(s.serialize_closure())
+    a = s.closure_equivalence(Resources["Copper Seed"])
+    s.adjust_quantity(a.numerator,a.denominator,fset=True)
+    print(s.serialize_closure())

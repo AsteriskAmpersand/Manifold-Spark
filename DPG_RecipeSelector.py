@@ -13,7 +13,7 @@ import dearpygui.dearpygui as dpg
 
 def populate_by_facility(facilities):
     for facility in sorted(facilities.values(),key=lambda x:x.name):
-        if facility.name not in ["Compressor","Manual Collection per Second"] and\
+        if facility.name not in ["Compressor","Manual Collection per Second","Cyclical Recipe"] and\
             "Noxious Coral" not in facility.name:
             with dpg.tree_node(label=facility.name,
                            tag="recipe/base/facility/%s"%name_transform(facility)):
@@ -46,10 +46,14 @@ def facility_name_generator(recipe):
     if facility.name in ["Plant Extractor","Geode Breaker"]:
         resource = recipe.inputs[0][0]
     else:
-        resource = list(recipe.output_map.keys())[0].name
-    if facility.name == "Aetheric Distiller" and resource == "Aetheric Shard":
-        resource += " (%s)"%(recipe.inputs[0][0])
-    return resource
+        resource = list(recipe.output_map.keys())[0]
+    resource_name = resource.name
+    for rcp in facility.recipes:
+        if rcp != recipe and resource in rcp.output_map:
+            resource_name += " (%s)"%(recipe.inputs[0][0])
+            break
+    #if facility.name == "Aetheric Distiller" and resource == "Aetheric Shard":   
+    return resource_name
 
 def resource_meta_name_generator(resource):
     def resource_name_generator(recipe):

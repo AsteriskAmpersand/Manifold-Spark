@@ -120,17 +120,19 @@ def save_as_graph(sender,app_data,user_data,prompt_response):
         dpg.set_value("node_editor_name",terminal.visual_name)
     
 def serialize(sender,app_data,user_data):
+    closure = (dpg.get_item_label(sender)  == "Closure")
     for child_index in dpg.get_item_children("node_editor",1):
         user_data = dpg.get_item_user_data(child_index)
         label = dpg.get_item_label(child_index)
         if user_data and user_data.terminal and label != "Output":
-            text = user_data.serialize()
+            text = user_data.serialize_closure() if closure else user_data.serialize()
             label = user_data.label()
             with dpg.window(width = 8 * max(map(len,text.split("\n"))), 
                                         height = 18 * len(text.split("\n")),
                                         label = label):
                 dpg.add_input_text(default_value = text,readonly = True,
                                    height = -1, width = -1, multiline = True)
+            return
 
 
 def visual_menubar():
@@ -144,3 +146,4 @@ def visual_menubar():
             dpg.add_menu_item(label="Save As", callback = save_as_graph)
             dpg.add_menu_item(label="Load", callback = menu_load_graph)
             dpg.add_menu_item(label="Serialize", callback = serialize)
+            dpg.add_menu_item(label="Closure", callback = serialize)
