@@ -1,0 +1,5 @@
+cd /d D:\Oddsparks\Scripts\Manifold-Spark
+cd Scripts
+activate
+cd ..
+PyInstaller DPG_Main.spec

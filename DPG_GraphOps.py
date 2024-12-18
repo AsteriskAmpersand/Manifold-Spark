@@ -62,7 +62,7 @@ def propagate_visual_deletion(prod_node):
         y = max(ny,y)
     return y
 
-def ratio_change(sender,app_data,user_data):
+def ratio_change(_,__,user_data):
     num = dpg.get_value(user_data.visual_num)
     denom = dpg.get_value(user_data.visual_denom)
     if denom < 1:
@@ -111,7 +111,15 @@ def populate_substitution(sender,app_data,user_data):
                 nprod_node = substitute_recipe_callback(s,a,u)
                 dpg.set_item_label(nprod_node.visual_node,label)                
             dpg.add_button(label = label, user_data = (prod_node,recipe), callback = closure_callback)
-            
+
+
+def closure_adjustment(sender,app_data,user_data):
+    resource, prod_node = user_data
+    qp = prod_node.closure_equivalence(resource)
+    dpg.set_value(prod_node.visual_num,qp.numerator)
+    dpg.set_value(prod_node.visual_denom,qp.denominator)
+    ratio_change(sender,app_data,prod_node)
+    dpg.configure_item(dpg.get_item_parent(sender),show = False)
 
 def build_visual_node(prod_node):
     enabled = prod_node.terminal
@@ -119,7 +127,10 @@ def build_visual_node(prod_node):
         with dpg.item_handler_registry() as handler:
             dpg.add_item_clicked_handler(button=dpg.mvMouseButton_Right, callback=substitution_menu,user_data=prod_node)
             dpg.bind_item_handler_registry(prod_node.visual_node,handler)
-
+    else:
+        with dpg.popup(dpg.last_container()):
+            for resource in prod_node.sockets_out.keys():
+                dpg.add_button(label = "Closure Adjustment [%s]"%resource.name,callback = closure_adjustment,user_data = (resource,prod_node))
     with dpg.node_attribute(attribute_type = dpg.mvNode_Attr_Static):
         with dpg.group(horizontal = True):
             node_amount = Fraction(prod_node.quantity)

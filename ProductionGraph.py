@@ -101,7 +101,25 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
                     for key in inps:
                         inputs[key] += inps[key]
         return inputs
-                           
+    
+    def closure(self):
+        outputs = self.total_outputs()
+        inputs = self.total_inputs()
+        net_ins = defaultdict(int)
+        net_outs = defaultdict(int)
+        for res in set(outputs.keys()).union(set(inputs.keys())):
+            net = outputs[res] - inputs[res]
+            if net < 0:
+                net_ins[res] = -net
+            elif net > 0:
+                net_outs[res] = net
+        return net_ins,net_outs
+    
+    def closure_equivalence(self,resource):
+        outputs = self.total_outputs()
+        _,closure_outputs = self.closure()
+        return Fraction(outputs[resource],closure_outputs[resource])*self.quantity
+    
     def terminate(self,resource,endNode):
         if self.resource != resource:
             raise ValueError("Resource termination does not match graph node focus resource")
