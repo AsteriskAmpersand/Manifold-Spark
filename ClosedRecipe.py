@@ -15,6 +15,10 @@ import json
 class ClosedRecipe(Recipe):
     def __init__(self,graph):
         self.graph = graph
+        if hasattr(graph,"visual_name"):
+            self.custom_name = graph.visual_name
+        else:
+            self.custom_name = ""
         net_inputs, net_outputs = graph.closure()
         processing_time,balanced_inputs,balanced_outputs = self.balance(net_inputs,net_outputs)
         super().__init__(Facilities["Cyclical Recipe"],
@@ -31,3 +35,11 @@ class ClosedRecipe(Recipe):
         binputs = {key:val*processing_time for key,val in inputs.items()}
         boutputs = {key:val*processing_time for key,val in outputs.items()}
         return processing_time,binputs,boutputs
+    
+    @property
+    def fullname(self):
+        fn = super().fullname
+        if self.custom_name:
+            return "[%s] " % self.custom_name + fn
+        else:
+            return fn

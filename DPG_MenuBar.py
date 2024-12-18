@@ -78,10 +78,14 @@ def add_user_chain(terminal_node):
     tag = "recipes/user/%s"%name
     if name in UserGraphs:
         UserGraphs[name] = terminal_node.copy()
-        UserClosures[name] = ClosedRecipe(terminal_node.copy())
+        tnc = terminal_node.copy()
+        if hasattr(terminal_node,"visual_node"):
+            tnc.visual_name = terminal_node.visual_name
+        UserClosures[name] = ClosedRecipe(tnc)
         dpg.set_item_user_data(tag,UserGraphs[name])
         return
     tnc = terminal_node.copy()
+    tnc.visual_name = terminal_node.visual_name
     UserGraphs[terminal_node.visual_name] = tnc
     UserClosures[terminal_node.visual_name] = ClosedRecipe(tnc)
     b = dpg.add_button(parent = target,
