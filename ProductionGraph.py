@@ -281,6 +281,7 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
                     fac = "%s Self-Supply from Outputs"%self.resource
                 else:
                     fac += " + Self-Supply"
+        if len(self.recipe.output_map) == 1:
             fac += " (%s)"%self.recipe.output
         adj = input_scale[self.resource] if self.recipe.raw and self.resource in input_scale else 1
         amount = self.quantity * adj

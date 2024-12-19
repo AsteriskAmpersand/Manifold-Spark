@@ -55,8 +55,9 @@ class RecipeList():
             
     def __printDependencies__(self,fac,amount,tabs, cast_float = False):
         tabStr = "    "*tabs
-        basics = [(fac,amount)] if not fac.network.recipes.items() else []
-        stations = [(fac,amount)] if "Spark" in fac.name else []
+        res = self.resource if self.resource else self.output
+        basics = [(fac,res,amount)] if not fac.network.recipes.items() else []
+        stations = [(fac,res,amount)] if "Spark" in fac.name else []
         for inp, ratio in fac.network.recipes.items():
             recipe = inp
             local_amount = amount * ratio
@@ -117,19 +118,19 @@ class RecipeList():
     def print_cumulative(self,cumulative,label):
         print()
         print("Total %s Requirements:"%label)
-        for recipe in sorted(cumulative.keys(),key = lambda x: str(x)):
+        for recipe,res in sorted(cumulative.keys(),key = lambda x: tuple(map(str,x))):
             print("\t",
                       "[%0.2f]"%cumulative[recipe],
-                      "%9s"%str(cumulative[recipe]),
-                      recipe)
+                      "%s (%s)"%str(cumulative[recipe]),
+                      recipe,res)
         print()        
     
     def accumulate(self,listing):
         cumulative = {}
-        for recipe, amount in listing:
-            if recipe not in cumulative:
-                cumulative[recipe] = 0
-            cumulative[recipe] += amount
+        for recipe, resource, amount in listing:
+            if (recipe,resource) not in cumulative:
+                cumulative[(recipe,resource)] = 0
+            cumulative[(recipe,resource)] += amount
         return cumulative
         
     
