@@ -62,6 +62,8 @@ def resource_meta_name_generator(resource):
             resource_name = "%s"%facility.name + " [" + " + ".join(map(lambda x: x[0].name,recipe.inputs)) + " -> "+\
                             " + ".join(map(lambda x: x.name,recipe.output_map.keys())) +\
                                 "]"
+        elif any(((resource in r.output_map and recipe != r) for r in facility.recipes)):
+            resource_name = "%s [%s]"%(facility,recipe.inputs[0][0])
         else:
             resource_name = "%s"%facility.name
         return resource_name
