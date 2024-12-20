@@ -1,0 +1,151 @@
+[
+  {
+    "recipe": "[Stellar Leaves Closure] Cyclical Recipe [17 Volcanic Soil -> 5 Stone + 13 Stellar Leaves]",
+    "qNum": 425,
+    "qDenom": 26,
+    "resource": "Stellar Leaves",
+    "terminal": false,
+    "in": {
+      "Volcanic Soil": 8
+    },
+    "out": {
+      "Stellar Leaves": 1
+    }
+  },
+  {
+    "recipe": "[Fireshroom Cluster Closure] Cyclical Recipe [2 Stellar Leaves -> 10 Lava Cap + 1 Fireshroom Cluster]",
+    "qNum": 50,
+    "qDenom": 1,
+    "resource": "Fireshroom Cluster",
+    "terminal": false,
+    "in": {
+      "Stellar Leaves": 0
+    },
+    "out": {
+      "Fireshroom Cluster": 6
+    }
+  },
+  {
+    "recipe": "Logger [ -> 1 Leaves]",
+    "qNum": 15,
+    "qDenom": 8,
+    "resource": "Leaves",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Leaves": 4
+    }
+  },
+  {
+    "recipe": "[Stellar Leaves Closure] Cyclical Recipe [17 Volcanic Soil -> 5 Stone + 13 Stellar Leaves]",
+    "qNum": 85,
+    "qDenom": 26,
+    "resource": "Stellar Leaves",
+    "terminal": false,
+    "in": {
+      "Volcanic Soil": 7
+    },
+    "out": {
+      "Stellar Leaves": 6
+    }
+  },
+  {
+    "recipe": "Cutter [4 Leaves -> 2 Fertiliser]",
+    "qNum": 45,
+    "qDenom": 8,
+    "resource": "Fertiliser",
+    "terminal": false,
+    "in": {
+      "Leaves": 2
+    },
+    "out": {
+      "Fertiliser": 9
+    }
+  },
+  {
+    "recipe": "Plant Extractor [1 Aether Flower -> 6 Aetheric Clump + 20 Aether Seed]",
+    "qNum": 1,
+    "qDenom": 1,
+    "resource": "Aether Seed",
+    "terminal": false,
+    "in": {
+      "Aether Flower": 9
+    },
+    "out": {
+      "Aether Seed": 11
+    }
+  },
+  {
+    "recipe": "Alchemy Lab [2 Fireshroom Cluster + 1 Stellar Leaves -> 4 Liquid Fertiliser]",
+    "qNum": 5,
+    "qDenom": 1,
+    "resource": "Liquid Fertiliser",
+    "terminal": false,
+    "in": {
+      "Fireshroom Cluster": 1,
+      "Stellar Leaves": 3
+    },
+    "out": {
+      "Liquid Fertiliser": 11
+    }
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Volcanic Soil]",
+    "qNum": 85,
+    "qDenom": 832,
+    "resource": "Volcanic Soil",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Volcanic Soil": 3
+    }
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Volcanic Soil]",
+    "qNum": 425,
+    "qDenom": 832,
+    "resource": "Volcanic Soil",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Volcanic Soil": 0
+    }
+  },
+  {
+    "recipe": "Greenhouse [20 Aetheric Pellet + 30 Fertiliser -> 1 Aether Flower]",
+    "qNum": 5,
+    "qDenom": 1,
+    "resource": "Aether Flower",
+    "terminal": false,
+    "in": {
+      "Aetheric Pellet": 10,
+      "Fertiliser": 4
+    },
+    "out": {
+      "Aether Flower": 5
+    }
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Aetheric Pellet]",
+    "qNum": 5,
+    "qDenom": 16,
+    "resource": "Aetheric Pellet",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Aetheric Pellet": 9
+    }
+  },
+  {
+    "recipe": "Arboretum Feeder [500 Liquid Fertiliser + 500 Aether Seed -> 5 Aether Apple]",
+    "qNum": 16,
+    "qDenom": 1,
+    "resource": "Aether Apple",
+    "terminal": true,
+    "in": {
+      "Liquid Fertiliser": 6,
+      "Aether Seed": 5
+    },
+    "out": {}
+  }
+]

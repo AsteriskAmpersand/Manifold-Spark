@@ -1,0 +1,62 @@
+[
+  {
+    "recipe": "Sawbench [1 Leaf Knot -> 10 Leaves]",
+    "qNum": 1,
+    "qDenom": 4,
+    "resource": "Leaves",
+    "terminal": true,
+    "in": {
+      "Leaf Knot": 3
+    },
+    "out": {}
+  },
+  {
+    "recipe": "Cutter [4 Leaves -> 2 Fertiliser]",
+    "qNum": 3,
+    "qDenom": 8,
+    "resource": "Fertiliser",
+    "terminal": false,
+    "in": {
+      "Leaves": 2
+    },
+    "out": {
+      "Fertiliser": 3
+    }
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Leaves]",
+    "qNum": 1,
+    "qDenom": 16,
+    "resource": "Leaves",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Leaves": 1
+    }
+  },
+  {
+    "recipe": "Greenhouse [40 Leaves + 20 Fertiliser -> 10 Leaf Knot]",
+    "qNum": 1,
+    "qDenom": 1,
+    "resource": "Leaf Knot",
+    "terminal": false,
+    "in": {
+      "Leaves": 4,
+      "Fertiliser": 1
+    },
+    "out": {
+      "Leaf Knot": 0
+    }
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Leaves]",
+    "qNum": 1,
+    "qDenom": 16,
+    "resource": "Leaves",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Leaves": 3
+    }
+  }
+]

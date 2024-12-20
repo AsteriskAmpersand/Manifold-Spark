@@ -1,30 +1,8 @@
 [
   {
-    "recipe": "Furnace [1 Copper Sap -> 8 Copper Seed]",
-    "qNum": 15,
-    "qDenom": 16,
-    "resource": "Copper Seed",
-    "terminal": true,
-    "in": {
-      "Copper Sap": 5
-    },
-    "out": {}
-  },
-  {
-    "recipe": "Logger [ -> 1 Leaves]",
-    "qNum": 5,
-    "qDenom": 8,
-    "resource": "Leaves",
-    "terminal": false,
-    "in": {},
-    "out": {
-      "Leaves": 3
-    }
-  },
-  {
     "recipe": "Manual Collection per Second [ -> 1 Copper Seed]",
-    "qNum": 25,
-    "qDenom": 128,
+    "qNum": 5,
+    "qDenom": 16,
     "resource": "Copper Seed",
     "terminal": false,
     "in": {},
@@ -33,68 +11,90 @@
     }
   },
   {
+    "recipe": "Logger [ -> 1 Leaves]",
+    "qNum": 1,
+    "qDenom": 1,
+    "resource": "Leaves",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Leaves": 5
+    }
+  },
+  {
+    "recipe": "Logger [ -> 1 Leaves]",
+    "qNum": 1,
+    "qDenom": 1,
+    "resource": "Leaves",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Leaves": 3
+    }
+  },
+  {
     "recipe": "Cutter [4 Leaves -> 2 Fertiliser]",
-    "qNum": 15,
-    "qDenom": 8,
+    "qNum": 3,
+    "qDenom": 1,
     "resource": "Fertiliser",
     "terminal": false,
     "in": {
-      "Leaves": 1
+      "Leaves": 2
     },
     "out": {
-      "Fertiliser": 7
+      "Fertiliser": 5
     }
   },
   {
     "recipe": "Arboretum Feeder [200 Leaf Knot + 500 Copper Seed -> 5 Copper Cutting]",
-    "qNum": 10,
+    "qNum": 16,
     "qDenom": 1,
     "resource": "Copper Cutting",
     "terminal": false,
     "in": {
-      "Leaf Knot": 7,
-      "Copper Seed": 2
+      "Leaf Knot": 5,
+      "Copper Seed": 0
     },
     "out": {
-      "Copper Cutting": 5
+      "Copper Cutting": 6
+    }
+  },
+  {
+    "recipe": "Greenhouse [40 Leaves + 20 Fertiliser -> 10 Leaf Knot]",
+    "qNum": 8,
+    "qDenom": 1,
+    "resource": "Leaf Knot",
+    "terminal": false,
+    "in": {
+      "Leaves": 1,
+      "Fertiliser": 3
+    },
+    "out": {
+      "Leaf Knot": 4
     }
   },
   {
     "recipe": "Plant Extractor [1 Copper Cutting -> 20 Copper Sap + 10 Copper Seed]",
     "qNum": 1,
-    "qDenom": 8,
+    "qDenom": 5,
     "resource": "Copper Sap",
     "terminal": false,
     "in": {
       "Copper Cutting": 4
     },
     "out": {
-      "Copper Sap": 0
+      "Copper Sap": 7
     }
   },
   {
-    "recipe": "Logger [ -> 1 Leaves]",
-    "qNum": 5,
-    "qDenom": 8,
-    "resource": "Leaves",
-    "terminal": false,
-    "in": {},
-    "out": {
-      "Leaves": 7
-    }
-  },
-  {
-    "recipe": "Greenhouse [40 Leaves + 20 Fertiliser -> 10 Leaf Knot]",
-    "qNum": 5,
-    "qDenom": 1,
-    "resource": "Leaf Knot",
-    "terminal": false,
+    "recipe": "Furnace [1 Copper Sap -> 8 Copper Seed]",
+    "qNum": 3,
+    "qDenom": 2,
+    "resource": "Copper Seed",
+    "terminal": true,
     "in": {
-      "Leaves": 6,
-      "Fertiliser": 3
+      "Copper Sap": 6
     },
-    "out": {
-      "Leaf Knot": 4
-    }
+    "out": {}
   }
 ]

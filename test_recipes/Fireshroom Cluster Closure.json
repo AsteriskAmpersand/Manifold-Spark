@@ -1,0 +1,87 @@
+[
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Stellar Leaves]",
+    "qNum": 1,
+    "qDenom": 128,
+    "resource": "Stellar Leaves",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Stellar Leaves": 1
+    }
+  },
+  {
+    "recipe": "Alchemy Lab [4 Fertiliser + 1 Stellar Leaves -> 2 Stellar Fertiliser]",
+    "qNum": 1,
+    "qDenom": 2,
+    "resource": "Stellar Fertiliser",
+    "terminal": false,
+    "in": {
+      "Fertiliser": 6,
+      "Stellar Leaves": 0
+    },
+    "out": {
+      "Stellar Fertiliser": 4
+    }
+  },
+  {
+    "recipe": "Logger [ -> 1 Leaves]",
+    "qNum": 1,
+    "qDenom": 8,
+    "resource": "Leaves",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Leaves": 6
+    }
+  },
+  {
+    "recipe": "Plant Extractor [2 Fireshroom Cluster -> 5 Glowshroom + 5 Lava Cap]",
+    "qNum": 2,
+    "qDenom": 5,
+    "resource": "Glowshroom",
+    "terminal": false,
+    "in": {
+      "Fireshroom Cluster": 5
+    },
+    "out": {
+      "Glowshroom": 4
+    }
+  },
+  {
+    "recipe": "Greenhouse [20 Glowshroom + 10 Stellar Fertiliser -> 10 Fireshroom Cluster]",
+    "qNum": 1,
+    "qDenom": 1,
+    "resource": "Fireshroom Cluster",
+    "terminal": true,
+    "in": {
+      "Glowshroom": 3,
+      "Stellar Fertiliser": 1
+    },
+    "out": {}
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Fireshroom Cluster]",
+    "qNum": 1,
+    "qDenom": 80,
+    "resource": "Fireshroom Cluster",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Fireshroom Cluster": 3
+    }
+  },
+  {
+    "recipe": "Cutter [4 Leaves -> 2 Fertiliser]",
+    "qNum": 3,
+    "qDenom": 8,
+    "resource": "Fertiliser",
+    "terminal": false,
+    "in": {
+      "Leaves": 2
+    },
+    "out": {
+      "Fertiliser": 1
+    }
+  }
+]

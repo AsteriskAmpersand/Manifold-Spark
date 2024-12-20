@@ -1,0 +1,62 @@
+[
+  {
+    "recipe": "Greenhouse [20 Coral + 10 Fertiliser -> 20 Coral Seed]",
+    "qNum": 1,
+    "qDenom": 1,
+    "resource": "Coral Seed",
+    "terminal": true,
+    "in": {
+      "Coral": 1,
+      "Fertiliser": 4
+    },
+    "out": {}
+  },
+  {
+    "recipe": "Plant Extractor [1 Coral Seed -> 3 Limestone + 3 Coral]",
+    "qNum": 4,
+    "qDenom": 3,
+    "resource": "Coral",
+    "terminal": false,
+    "in": {
+      "Coral Seed": 2
+    },
+    "out": {
+      "Coral": 0
+    }
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Coral Seed]",
+    "qNum": 1,
+    "qDenom": 48,
+    "resource": "Coral Seed",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Coral Seed": 1
+    }
+  },
+  {
+    "recipe": "Logger [ -> 1 Leaves]",
+    "qNum": 1,
+    "qDenom": 8,
+    "resource": "Leaves",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Leaves": 4
+    }
+  },
+  {
+    "recipe": "Cutter [4 Leaves -> 2 Fertiliser]",
+    "qNum": 3,
+    "qDenom": 8,
+    "resource": "Fertiliser",
+    "terminal": false,
+    "in": {
+      "Leaves": 3
+    },
+    "out": {
+      "Fertiliser": 0
+    }
+  }
+]

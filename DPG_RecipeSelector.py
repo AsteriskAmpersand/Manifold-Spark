@@ -7,6 +7,7 @@ Created on Mon Dec 16 10:17:59 2024
 from Resources import Resources
 from Facilities import Facilities
 from ProductionGraph import BaseGraphs
+import DPG_Common as Com
 from DPG_GraphOps import production_graph_to_node_graph,display_node
 
 import dearpygui.dearpygui as dpg
@@ -80,6 +81,7 @@ def recipe_key(recipe):
 def recipe_select_callback(item,app_data,user_data):
     recipe = user_data
     target = "node_editor"
+    Com.reset_zoom()
     dpg.delete_item(target,children_only = True)
     if recipe in BaseGraphs:
         terminal = BaseGraphs[recipe].copy()

@@ -5,7 +5,7 @@ Created on Mon Dec 16 09:58:33 2024
 @author: Asterisk
 """
 import DPG_Prompts as prompt
-from DPG_Common import UserGraphs, UserClosures, get_terminal
+from DPG_Common import UserGraphs, UserClosures, get_terminal, reset_zoom
 from DPG_GraphOps import display_node,load_graph
 from ProductionGraph import ProductionGraphRecipeNode
 from ClosedRecipe import ClosedRecipe
@@ -67,6 +67,7 @@ def menu_load_graph(sender,app_data,user_data):
     load_graph(terminal)
 
 def user_graph_callback(sender,app_data,user_data):
+    reset_zoom()
     graph = user_data.copy()
     load_graph(graph)
     dpg.set_value("node_editor_name",dpg.get_item_label(sender))

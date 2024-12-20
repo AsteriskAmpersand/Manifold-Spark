@@ -191,6 +191,7 @@ def production_graph_to_node_graph(prod_node,target,x=X_BASE,y=Y_BASE,target_soc
         sockets = build_visual_sockets(prod_node,target,target_socket)
         for dsp,(inp,nnode) in enumerate(prod_node.sockets_in.items()):
             y,child = production_graph_to_node_graph(nnode,target,x+horizontal(),y+vertical()*(dsp>0),(inp,sockets[dsp]))
+    Com.set_zoom(node,prod_node)
     return y,node
 
 def display_node(target,terminal_node):

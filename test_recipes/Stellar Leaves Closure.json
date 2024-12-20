@@ -1,0 +1,49 @@
+[
+  {
+    "recipe": "Greenhouse [10 Stellar Seed + 20 Volcanic Soil -> 20 Stellar Leaves]",
+    "qNum": 1,
+    "qDenom": 1,
+    "resource": "Stellar Leaves",
+    "terminal": true,
+    "in": {
+      "Stellar Seed": 3,
+      "Volcanic Soil": 2
+    },
+    "out": {}
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Stellar Leaves]",
+    "qNum": 1,
+    "qDenom": 136,
+    "resource": "Stellar Leaves",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Stellar Leaves": 3
+    }
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Volcanic Soil]",
+    "qNum": 1,
+    "qDenom": 32,
+    "resource": "Volcanic Soil",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Volcanic Soil": 0
+    }
+  },
+  {
+    "recipe": "[Stellar Seed (with Ice)] Cyclical Recipe [8 Stellar Leaves -> 10 Stone + 17 Stellar Seed]",
+    "qNum": 5,
+    "qDenom": 17,
+    "resource": "Stellar Seed",
+    "terminal": false,
+    "in": {
+      "Stellar Leaves": 1
+    },
+    "out": {
+      "Stellar Seed": 0
+    }
+  }
+]
