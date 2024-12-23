@@ -12,7 +12,7 @@
     "out": {}
   },
   {
-    "recipe": "Plant Extractor [1 Coral Seed -> 3 Limestone + 3 Coral]",
+    "recipe": "Plant Extractor [1 Coral Seed -> 3 Coral + 3 Limestone]",
     "qNum": 4,
     "qDenom": 3,
     "resource": "Coral",

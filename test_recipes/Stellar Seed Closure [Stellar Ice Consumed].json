@@ -1,0 +1,37 @@
+[
+  {
+    "recipe": "Plant Extractor [4 Stellar Ice -> 1 Stellar Seed + 2 Stone]",
+    "qNum": 1,
+    "qDenom": 1,
+    "resource": "Stellar Seed",
+    "terminal": true,
+    "in": {
+      "Stellar Ice": 2
+    },
+    "out": {}
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Stellar Leaves]",
+    "qNum": 1,
+    "qDenom": 40,
+    "resource": "Stellar Leaves",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Stellar Leaves": 2
+    }
+  },
+  {
+    "recipe": "Plant Extractor [2 Stellar Leaves -> 5 Stellar Ice + 3 Stellar Seed]",
+    "qNum": 4,
+    "qDenom": 5,
+    "resource": "Stellar Ice",
+    "terminal": false,
+    "in": {
+      "Stellar Leaves": 1
+    },
+    "out": {
+      "Stellar Ice": 0
+    }
+  }
+]

@@ -1,13 +1,26 @@
 [
   {
+    "recipe": "[Stellar Seed Closure [Stellar Ice Consumed]] Cyclical Recipe [8 Stellar Leaves -> 17 Stellar Seed + 10 Stone]",
+    "qNum": 5,
+    "qDenom": 17,
+    "resource": "Stellar Seed",
+    "terminal": false,
+    "in": {
+      "Stellar Leaves": 2
+    },
+    "out": {
+      "Stellar Seed": 1
+    }
+  },
+  {
     "recipe": "Greenhouse [10 Stellar Seed + 20 Volcanic Soil -> 20 Stellar Leaves]",
     "qNum": 1,
     "qDenom": 1,
     "resource": "Stellar Leaves",
     "terminal": true,
     "in": {
-      "Stellar Seed": 3,
-      "Volcanic Soil": 2
+      "Stellar Seed": 0,
+      "Volcanic Soil": 3
     },
     "out": {}
   },
@@ -19,7 +32,7 @@
     "terminal": false,
     "in": {},
     "out": {
-      "Stellar Leaves": 3
+      "Stellar Leaves": 0
     }
   },
   {
@@ -30,20 +43,7 @@
     "terminal": false,
     "in": {},
     "out": {
-      "Volcanic Soil": 0
-    }
-  },
-  {
-    "recipe": "[Stellar Seed (with Ice)] Cyclical Recipe [8 Stellar Leaves -> 10 Stone + 17 Stellar Seed]",
-    "qNum": 5,
-    "qDenom": 17,
-    "resource": "Stellar Seed",
-    "terminal": false,
-    "in": {
-      "Stellar Leaves": 1
-    },
-    "out": {
-      "Stellar Seed": 0
+      "Volcanic Soil": 1
     }
   }
 ]

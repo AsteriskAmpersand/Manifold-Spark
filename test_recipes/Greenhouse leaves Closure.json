@@ -35,7 +35,7 @@
     }
   },
   {
-    "recipe": "Greenhouse [40 Leaves + 20 Fertiliser -> 10 Leaf Knot]",
+    "recipe": "Greenhouse [20 Fertiliser + 40 Leaves -> 10 Leaf Knot]",
     "qNum": 1,
     "qDenom": 1,
     "resource": "Leaf Knot",

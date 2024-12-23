@@ -28,7 +28,7 @@ def get_folder():
         pathmem = path
     return path
 
-def _get_file(multi = False, save = False):
+def _get_file(multi = False, save = False, name = ""):
     global pathmem
     file_types = "Json Files\0*.json\0Other file types\0*.*\0"
     customfilter = ""
@@ -43,6 +43,7 @@ def _get_file(multi = False, save = False):
                 Filter=file_types,
                 CustomFilter=customfilter,
                 FilterIndex=1,
+                File = name
                 )
         else:
             fname, customfilter, flags = win32gui.GetOpenFileNameW(
@@ -53,6 +54,7 @@ def _get_file(multi = False, save = False):
                 Filter=file_types,
                 CustomFilter=customfilter,
                 FilterIndex=1,
+                File = name
                 )
     except:
         fname = ""
@@ -62,8 +64,8 @@ def _get_file(multi = False, save = False):
         pathmem = str(Path(fname).parent.resolve())
     return fname
 
-def get_file(save = False):
-    fname = _get_file(save = save)
+def get_file(save = False,name = ""):
+    fname = _get_file(save = save,name = name)
     return fname.replace("\0","\\") if fname else None
 
 def get_files():

@@ -222,10 +222,11 @@ class Recipe():
     @property
     def fullname(self):
         if type(self.output) is list:
-            output = " + ".join([ amount +" "+itm for itm, amount in zip(map(str,self.output),map(str,self.output_amount))])
+            output_map = sorted(self.output_map.items(),key = lambda x: x[0].name)
+            output = " + ".join([ str(amount) + " " + str(itm) for itm, amount in output_map])
         else:
             output = "%d %s" % (self.output_amount,str(self.output))
-        inp = " + ".join(map(lambda x: "%d %s" % (x[1],x[0].name), self.inputs))
+        inp = " + ".join(map(lambda x: "%d %s" % (x[1],x[0].name), sorted(self.inputs,key=lambda x: x[0].name)))
         return self.facility.name + " [%s -> %s]"%(inp,output)
     
     def chainRate(self,network):
@@ -336,3 +337,4 @@ for text_recipe in RecipeData.TextRecipeList:
     Recipe(**text_recipe.kwargs)
     
 Recipes.calcRatios()
+CyclicalRecipes = {}

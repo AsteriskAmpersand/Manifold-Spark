@@ -1,6 +1,6 @@
 [
   {
-    "recipe": "[Stellar Leaves Closure] Cyclical Recipe [17 Volcanic Soil -> 5 Stone + 13 Stellar Leaves]",
+    "recipe": "[Stellar Leaves Closure] Cyclical Recipe [17 Volcanic Soil -> 13 Stellar Leaves + 5 Stone]",
     "qNum": 425,
     "qDenom": 26,
     "resource": "Stellar Leaves",
@@ -13,7 +13,7 @@
     }
   },
   {
-    "recipe": "[Fireshroom Cluster Closure] Cyclical Recipe [2 Stellar Leaves -> 10 Lava Cap + 1 Fireshroom Cluster]",
+    "recipe": "[Fireshroom Cluster Closure] Cyclical Recipe [2 Stellar Leaves -> 1 Fireshroom Cluster + 10 Lava Cap]",
     "qNum": 50,
     "qDenom": 1,
     "resource": "Fireshroom Cluster",
@@ -37,7 +37,7 @@
     }
   },
   {
-    "recipe": "[Stellar Leaves Closure] Cyclical Recipe [17 Volcanic Soil -> 5 Stone + 13 Stellar Leaves]",
+    "recipe": "[Stellar Leaves Closure] Cyclical Recipe [17 Volcanic Soil -> 13 Stellar Leaves + 5 Stone]",
     "qNum": 85,
     "qDenom": 26,
     "resource": "Stellar Leaves",
@@ -63,7 +63,7 @@
     }
   },
   {
-    "recipe": "Plant Extractor [1 Aether Flower -> 6 Aetheric Clump + 20 Aether Seed]",
+    "recipe": "Plant Extractor [1 Aether Flower -> 20 Aether Seed + 6 Aetheric Clump]",
     "qNum": 1,
     "qDenom": 1,
     "resource": "Aether Seed",
@@ -137,7 +137,7 @@
     }
   },
   {
-    "recipe": "Arboretum Feeder [500 Liquid Fertiliser + 500 Aether Seed -> 5 Aether Apple]",
+    "recipe": "Arboretum Feeder [500 Aether Seed + 500 Liquid Fertiliser -> 5 Aether Apple]",
     "qNum": 16,
     "qDenom": 1,
     "resource": "Aether Apple",

@@ -6,7 +6,7 @@ Created on Fri Dec 13 02:30:11 2024
 """
 from Resources import Resources
 from Facilities import Facilities
-from Recipes import Recipe,Recipes
+from Recipes import Recipe,Recipes,CyclicalRecipes
 from util import to_str
 
 from fractions import Fraction
@@ -359,7 +359,10 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
     @staticmethod 
     def unpack(data):
         recipe_fullname = data['recipe']
-        recipe = Recipes.recipes_by_fullname[recipe_fullname]
+        if recipe_fullname in Recipes.recipes_by_fullname:
+            recipe = Recipes.recipes_by_fullname[recipe_fullname]
+        else:
+            recipe = CyclicalRecipes[recipe_fullname]
         resource = Resources[data["resource"]] if data["resource"] else None
         quantity = Fraction(data["qNum"],data["qDenom"])
         return ProductionGraphRecipeNode(recipe, resource = resource, quantity = quantity)

@@ -46,7 +46,7 @@
     }
   },
   {
-    "recipe": "Arboretum Feeder [200 Leaf Knot + 500 Copper Seed -> 5 Copper Cutting]",
+    "recipe": "Arboretum Feeder [500 Copper Seed + 200 Leaf Knot -> 5 Copper Cutting]",
     "qNum": 16,
     "qDenom": 1,
     "resource": "Copper Cutting",
@@ -60,7 +60,7 @@
     }
   },
   {
-    "recipe": "Greenhouse [40 Leaves + 20 Fertiliser -> 10 Leaf Knot]",
+    "recipe": "Greenhouse [20 Fertiliser + 40 Leaves -> 10 Leaf Knot]",
     "qNum": 8,
     "qDenom": 1,
     "resource": "Leaf Knot",

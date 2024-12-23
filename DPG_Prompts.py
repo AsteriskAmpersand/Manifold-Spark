@@ -6,6 +6,19 @@ Created on Mon Dec 16 10:00:58 2024
 """
 import dearpygui.dearpygui as dpg
 
+def infobox(title,text):
+    x,y = dpg.get_viewport_client_width(),dpg.get_viewport_client_height()
+    with dpg.window(label = title, modal = True, pos = (x/2-100,y/2-50)) as win:
+        def button_callback(sender,app_data,user_data):
+            dpg.configure_item(win, show=False)
+            dpg.delete_item(win)
+            
+        dpg.add_text(text)
+        dpg.add_separator()
+        with dpg.group(horizontal=True):
+            dpg.add_button(label="OK", width=75, callback=button_callback)
+    return 
+
 def text_prompt(continuation, label = "",prompt = ""):
     x,y = dpg.get_viewport_client_width(),dpg.get_viewport_client_height()
     with dpg.window(label = label, modal = True, pos = (x/2-100,y/2-50)) as win:

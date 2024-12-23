@@ -9,6 +9,7 @@ from DPG_Common import UserGraphs, UserClosures, get_terminal, reset_zoom
 from DPG_GraphOps import display_node,load_graph
 from ProductionGraph import ProductionGraphRecipeNode
 from ClosedRecipe import ClosedRecipe
+from Recipes import CyclicalRecipes
 from FileOps import get_file, get_files, get_folder
 
 import dearpygui.dearpygui as dpg
@@ -29,7 +30,8 @@ def export_all_graph(sender,app_data,user_data):
 
 def export_graph(sender,app_data,user_data):
     terminal = get_terminal()
-    outpath = get_file()
+    vname = terminal.visual_name if hasattr(terminal,"visual_name") else ""
+    outpath = get_file(save=True,name = vname )
     if not outpath or not terminal:
         return
     _export_graph(terminal,outpath)
@@ -43,11 +45,27 @@ def _import_graph(inpath):
 def import_graph():
     inpaths = get_files()
     if not inpaths:return
-    for inpath in inpaths:
-        terminal = _import_graph(inpath)
-        terminal.visual_name = Path(inpath).stem
-        add_user_chain(terminal)
-        
+    lastcount = 0
+    while (lastcount != len(inpaths)):
+        lastcount = len(inpaths)
+        errors = []
+        error_stack = []
+        for inpath in inpaths:
+            try:
+                terminal = _import_graph(inpath)
+                terminal.visual_name = Path(inpath).stem
+                add_user_chain(terminal)
+            except KeyError as e:
+                errors.append(inpath)
+                error_stack.append(e)
+        inpaths = errors
+        #Remove for nicer error printing
+    if not inpaths:
+        return
+    txt = "\n\n".join(("Failed to Load %s\nMissing Recipe: %s"%(path,stack.args[0])
+                       for path, stack in zip(inpaths,error_stack)))
+    prompt.infobox("Error Importing Recipes",txt)
+    
 def save_graph(sender,app_data,user_data):
     terminal = get_terminal()
     if hasattr(terminal,"visual_name"):
@@ -82,13 +100,17 @@ def add_user_chain(terminal_node):
         tnc = terminal_node.copy()
         if hasattr(terminal_node,"visual_node"):
             tnc.visual_name = terminal_node.visual_name
-        UserClosures[name] = ClosedRecipe(tnc)
+        cr = ClosedRecipe(tnc)
+        UserClosures[name] = cr
+        CyclicalRecipes[cr.fullname] = cr
         dpg.set_item_user_data(tag,UserGraphs[name])
         return
     tnc = terminal_node.copy()
     tnc.visual_name = terminal_node.visual_name
     UserGraphs[terminal_node.visual_name] = tnc
-    UserClosures[terminal_node.visual_name] = ClosedRecipe(tnc)
+    cr = ClosedRecipe(tnc)
+    UserClosures[terminal_node.visual_name] = cr
+    CyclicalRecipes[cr.fullname] = cr
     b = dpg.add_button(parent = target,
                        label = name,
                        user_data = UserGraphs[terminal_node.visual_name],
