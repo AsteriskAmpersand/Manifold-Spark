@@ -92,7 +92,9 @@ def node_editor():
 def scale_settings():
     with dpg.font_registry():
         Com.FONT_SIZES = { z:dpg.add_font(resource_path("./OpenSans-VariableFont_wdth,wght.ttf"), round(16*z/100))  for z in Com.ZOOM_LEVELS}
-            # first argument ids the path to the .ttf or .otf file
+      
+  
+         # first argument ids the path to the .ttf or .otf file
             #default_font = dpg.add_font("NotoSerifCJKjp-Medium.otf", 20)
 
 def main_window():        
@@ -131,4 +133,6 @@ if __name__ == '__main__':
     dpg.setup_dearpygui()
     dpg.show_viewport()
     dpg.start_dearpygui()
-    dpg.destroy_context()
+    dpg.destroy_context() 
+      
+    

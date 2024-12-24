@@ -6,8 +6,8 @@ Created on Mon Dec 16 09:58:33 2024
 """
 import DPG_Prompts as prompt
 from DPG_Common import UserGraphs, UserClosures, get_terminal, reset_zoom
-from DPG_GraphOps import display_node,load_graph
-from ProductionGraph import ProductionGraphRecipeNode
+from DPG_GraphOps import load_graph
+from ProductionGraph import ProductionGraphNode
 from ClosedRecipe import ClosedRecipe
 from Recipes import CyclicalRecipes
 from FileOps import get_file, get_files, get_folder
@@ -39,7 +39,7 @@ def export_graph(sender,app_data,user_data):
 def _import_graph(inpath):
     with open(inpath,"r") as inf:
         json_data = json.load(inf)
-        terminal = ProductionGraphRecipeNode.UnpackNetwork(json_data)
+        terminal = ProductionGraphNode.UnpackNetwork(json_data)
     return terminal
 
 def import_graph():
@@ -174,3 +174,6 @@ def visual_menubar():
             dpg.add_menu_item(label="Load", callback = menu_load_graph)
             dpg.add_menu_item(label="Serialize", callback = serialize)
             dpg.add_menu_item(label="Closure", callback = serialize)
+            
+if __name__ in "__main__":
+    print(_import_graph('./test_recipes/Test.json').serialize())

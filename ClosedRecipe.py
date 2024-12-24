@@ -6,7 +6,7 @@ Created on Mon Dec 16 14:34:22 2024
 """
 from Recipes import Recipe
 from Facilities import Facilities
-from ProductionGraph import ProductionGraphRecipeNode
+from ProductionGraph import RecipeNode
 
 from collections import defaultdict
 from fractions import Fraction

@@ -27,15 +27,15 @@ def set_zoom(node,prod_node,sizes=None,scales=None):
     ddiv = lambda u,v: (u[0]/v[0],u[1]/v[1])
     dpg.bind_item_font(node,FONT_SIZES[scale])
     if not dpg.get_item_label(node) == "Output":
-        for element in dpg.get_item_children(node):
-            dpg.set_item_width(prod_node.visual_num,round(40*scale/100))
-            dpg.set_item_width(prod_node.visual_denom,round(40*scale/100))
-        for component_list in prod_node.visual_components.values():
+        for n,component_list in prod_node.visual_components.items():
             for component in component_list:
-                try:
-                    dpg.set_item_height(component,round(20*scale/100))
-                except:
-                    pass
+                if dpg.get_item_type(component) == "mvAppItemType::mvInputInt":
+                    dpg.set_item_width(component,round(40*scale/100))
+                else:
+                    try:
+                        dpg.set_item_height(component,round(20*scale/100))
+                    except:
+                        pass
         if sizes is not None and scales is not None:
             size = dpg.get_item_rect_size(node)
             node_scale = ddiv(size,sizes[node])

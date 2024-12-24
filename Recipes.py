@@ -164,7 +164,12 @@ class Recipe():
         #    self.craft_rate = Fraction(1,output_amount*processing_time)
         self.output = output
         self.output_amount = output_amount
-        self.inputs = [(i,a) for i,a in inputs]#Do not divide by output amount, processing time already is doing this
+        if type(self.output) is list:
+            self.output_map = {rsr:val for rsr,val in zip(self.output,self.output_amount)}
+        else:
+            self.output_map = {self.output:self.output_amount}
+        #self.inputs = [(i,a) for i,a in inputs]#Do not divide by output amount, processing time already is doing this
+        self.input_map = {i:a for i,a in inputs}
         self.primitive = len(self.inputs) == 0
         self.processing_time = Fraction(processing_time,1)#Fraction(processing_time,self.output_amount)
         self.network = None
@@ -184,11 +189,9 @@ class Recipe():
                 i.recipes_as_input.append(self)
         
     @property
-    def output_map(self):
-        if type(self.output) is list:
-            return {rsr:val for rsr,val in zip(self.output,self.output_amount)}
-        else:
-            return {self.output:self.output_amount}
+    def inputs(self):
+        return list(self.input_map.items())
+    
         
     def __hash__(self):
         return hash(self.fullname)

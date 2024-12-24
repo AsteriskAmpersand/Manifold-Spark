@@ -18,7 +18,7 @@ def find_compressor_recipe(resource):
         if recipe.inputs[0][0] == resource:
             return recipe
     raise
-    
+
 def recipeQuantity(outputRecipe,inputRecipe,resource,multiplier = 1):
     output_amount = outputRecipe.output_map[resource]
     craft_rate = output_amount/outputRecipe.processing_time
@@ -42,9 +42,218 @@ def fetchRecipe(resource):
     return Recipes[resource][0]
         
 class ProductionGraphNode():
-    pass
-            
-class ProductionGraphRecipeNode(ProductionGraphNode):
+    @staticmethod
+    def unpack(data):
+        if "type" in data:
+            if data["type"] == "Merger":
+                return MergerNode.unpack(data)
+            elif data["type"] == "Recipe":
+                return RecipeNode.unpack(data)
+            else:
+                raise TypeError("Type %s does not have an unpacking method"%data["type"])
+        else:
+            return RecipeNode.unpack(data)
+        
+    def pack(self):
+        nodes,reverse_nodes = self.collect()
+        return [node.__pack__(nodes,reverse_nodes) for node in nodes]
+        
+    def collect(self):
+        nodes = self.__collect__(set())
+        nodes = list(nodes)
+        reverse_nodes = {node:ix for ix, node in enumerate(nodes)}
+        return nodes, reverse_nodes
+
+    def __collect__(self,found = None):
+        if found is None:
+            found = set()
+        found.add(self)
+        for res,endpoint in self.sockets_out.items():
+            if endpoint and endpoint not in found: endpoint.__collect__(found)
+        for _,endpoint in self.get_input_sockets():
+            if endpoint and endpoint not in found: endpoint.__collect__(found)
+        return found
+        
+    @staticmethod
+    def UnpackNetwork(data):
+        terminal = None
+        nodes = [ProductionGraphNode.unpack(entry) for entry in data]
+        """
+        for ix,(node,entry) in enumerate(zip(nodes,data)): 
+            if isinstance(node,RecipeNode):
+                frint(ix,"[%s]"%(",".join(map(str,entry["in"].values()))),
+                      node.recipe.fullname,
+                      "[%s]"%(",".join(map(str,entry["out"].values()))),
+                      "*" if "terminal" in entry and entry["terminal"] else "")
+            else:
+                frint(ix,"[%s]"%(",".join(map(str,entry["in"]))),
+                      "Merger %s/%s"%(node.ratio.numerator,node.ratio.denominator),
+                      "[%s]"%(",".join(map(str,entry["out"].values()))))
+        """
+        for entry,node in zip(data,nodes):
+            node.set_sockets(entry,nodes)
+            node.terminal = entry["terminal"] if "terminal" in entry else False
+            if node.terminal:
+                terminal = node
+        return terminal
+    
+    def remove(self):
+        if self.parent:
+            self.parent.remove(self)
+        for val in self.sockets_in.values():
+            if type(val) is ProductionGraphNode:
+                val.remove()
+                                   
+    def __hash__(self):
+        return hash(repr(self))
+    
+        
+class MergerNode(ProductionGraphNode):
+    def __init__(self, resource, ratio = None, parent = None, quantity = None, output = None):
+        self.parent = parent
+        if self.parent:
+            self.parent.add(self)
+        self.resource = resource
+        self.sockets_out = {resource:output}
+        self.sockets_in = [RecipeNode(fetchRecipe(self.resource),
+                            resource = self.resource,
+                            outputs = {self.resource:self},
+                            quantity = Fraction(1),
+                            parent = self.parent) for _ in range(2)]
+        if ratio is None:
+            ratio = Fraction(1)
+        if ratio < 0 or ratio > 1:
+            raise ValueError("Merger cannot have weights under 0 or over 1")
+        self.ratio = Fraction(ratio)
+        self.quantity = Fraction(1) if quantity is None else quantity
+
+    def __pack__(self,nodes,reverse_nodes):
+        return {
+         "resource":self.resource.name if self.resource else "",
+         "ratio_num":self.ratio.numerator,
+         "ratio_denom":self.ratio.denominator,
+         "qNum":self.quantity.numerator,
+         "qDenom":self.quantity.denominator,
+         "in":[reverse_nodes[node] for node in self.sockets_in if node],
+         "out":{sout.name:reverse_nodes[node] for sout,node in self.sockets_out.items() if node},
+         "type":"Merger"
+         } 
+   
+    @staticmethod 
+    def unpack(data):
+        resource = Resources[data["resource"]]
+        ratio = Fraction(data["ratio_num"],data["ratio_denom"])
+        quantity = Fraction(data["qNum"],data["qDenom"])
+        return MergerNode(resource, ratio = ratio, quantity = quantity)
+    
+    def set_sockets(self,entry,nodelist):
+        self.sockets_in = [nodelist[ix] for ix in entry["in"]]
+        for res,target in entry["out"].items():
+            resource = Resources[res]
+            self.sockets_out[resource] = nodelist[target]
+        
+    def copy(self, new_parent = None):
+        if new_parent is None:
+            new_parent = self.parent
+        nnode = type(self)(self.resource,self.ratio,new_parent,self.quantity)
+        sockets_in = []
+        for node_in in self.sockets_in:
+            if node_in is not None:
+                copied_input = node_in.copy(new_parent)
+                sockets_in.append(copied_input)
+                copied_input.sockets_out[self.resource] = nnode
+            else:
+                sockets_in.append(node_in)
+        nnode.sockets_in = sockets_in
+        return nnode
+    
+    def get_input_sockets(self):
+        return [(self.resource,inp) for inp in self.sockets_in]
+
+    def adjust_ratio(self, num, denom):
+        self.ratio = Fraction(num,denom)
+        self.adjust_quantity(resource = self.resource, resource_target = self.quantity)
+    
+    def adjust_quantity(self,*args,resource = None, resource_target = None, **kwargs):
+        if self.resource != resource:
+            raise ValueError("Merger Node cannot adjust for resources it is not configured to merge")
+        if resource_target is None:
+            raise ValueError("Resource target cannot be none for Merger Node")
+        self.quantity = resource_target
+        node = self.sockets_in[0]
+        node.adjust_quantity(resource = resource, resource_target = resource_target * self.ratio)
+        node = self.sockets_in[1]
+        node.adjust_quantity(resource = resource, resource_target = resource_target * (1-self.ratio))
+        
+    
+    def set_top(self,inp):
+        if inp.resource != self.resource:
+            raise ValueError("Input Resource Mismatch")
+        self.sockets_in[0] = inp
+    
+    def set_bottom(self,inp):
+        if inp.resource != self.resource:
+            raise ValueError("Input Resource Mismatch")
+        self.sockets_in[1] = inp
+        
+    def total_inputs(self):
+        inputs = defaultdict(lambda: 0)
+        for ix,(res,node) in enumerate(self.get_input_sockets()):
+            if node:
+                if hasattr(node,"recipe") and node.recipe.raw:
+                    inputs[self.resource] += Fraction(node.recipe.output_map[res]*node.quantity,node.recipe.processing_time)
+                else:
+                    inps = node.total_inputs()
+                    inputs[self.resource] += inps[self.resource]
+        return inputs
+                
+    def total_outputs(self):
+        outputs = defaultdict(int)
+        for res,node in self.get_input_sockets():
+            if node:
+                outs = node.total_outputs()
+                for key in outs:
+                    outputs[key] += outs[key]
+        return outputs
+
+    def substitute(self,obj):
+        if isinstance(obj,Recipe):
+            nn = RecipeNode(obj,resource = self.resource, outputs = self.sockets_out,
+                            quantity = 1, parent = self.parent)
+        elif isinstance(obj,RecipeNode):
+            nn = obj.copy(self.parent)
+            obj.resource = self.resource
+            obj.sockets_out[self.resource] = self.sockets_out[self.resource]
+        else:
+            raise NotImplementedError("Substitution not implemented for type %s"%type(obj))
+        self.sockets_out[self.resource].retarget(self,nn)
+        nn.adjust_quantity(resource = self.resource, resource_target = self.quantity)
+        return nn
+        
+    def __serialize__(self,depth,output,self_line = True,input_scale = {}):
+        if self.ratio == 1:
+            return self.sockets_in[0].__serialize__(depth,output,self_line,input_scale)
+        elif self.ratio == 0:
+            return self.sockets_in[1].__serialize__(depth,output,self_line,input_scale)
+        tabStr = "    "*depth
+        basics = []
+        stations = []
+        if self_line:
+            recipename = "%s Input Flow Merger"%self.resource.name
+            output += tabStr+"%s"%(recipename) + "\n"
+        for resource, socket in self.get_input_sockets():
+            if socket is not None:
+                output,b,s = socket.__serialize__(depth+1, output,input_scale = input_scale)
+                basics += b
+                stations += s
+        return output,basics,stations
+    
+    def retarget(self,old,new):
+        for ix,(key,val) in enumerate(self.get_input_sockets()):
+            if val == old:
+                self.sockets_in[ix] = new
+
+class RecipeNode(ProductionGraphNode):
     def __init__(self,recipe, resource = None, outputs = None, quantity = None, parent = None):
         self.parent = parent
         if self.parent:
@@ -70,14 +279,17 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
         self.sockets_in = {}
         for inp,_ in self.recipe.inputs:
             self.sockets_in[inp] = \
-                           ProductionGraphRecipeNode(fetchRecipe(inp),
+                           RecipeNode(fetchRecipe(inp),
                                                      resource = inp,
                                                      outputs = {inp:self},
                                                      quantity = recipeQuantity(fetchRecipe(inp),
                                                                                recipe,inp,
                                                                                quantity),
                                                      parent = self.parent)
-                           
+
+    def get_input_sockets(self):
+        return list(self.sockets_in.items())
+
     def total_outputs(self):
         outputs = defaultdict(int)
         for res,node in self.sockets_out.items():
@@ -94,7 +306,7 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
         inputs = defaultdict(lambda: 0)
         for res,node in self.sockets_in.items():
             if node:
-                if node.recipe.raw:
+                if hasattr(node,"recipe") and node.recipe.raw:
                     inputs[res] += Fraction(node.recipe.output_map[res]*node.quantity,node.recipe.processing_time)
                 else:
                     inps = node.total_inputs()
@@ -133,29 +345,15 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
         old_rate = self.quantity * self.recipe.output_map[self.resource] / self.recipe.processing_time
         new_rate = recipe.output_map[self.resource] / recipe.processing_time
         new_quantity = old_rate/new_rate
-        nnode = ProductionGraphRecipeNode(recipe,resource = self.resource, 
+        nnode = RecipeNode(recipe,resource = self.resource, 
                                   outputs = {self.resource:self.sockets_out[self.resource]},
                                   quantity = new_quantity, 
                                   parent = self.parent)
         sout = self.sockets_out[self.resource]
-        if sout and self.resource in sout.sockets_in:
-            sout.sockets_in[self.resource] = nnode
+        if sout:
+            sout.retarget(self,nnode)
         self.remove()
-        return nnode            
-        
-    def adjust_quantity(self,numerator,denominator,fset = False):
-        old_quantity = self.quantity
-        new_quantity = Fraction(numerator,denominator)
-        if fset:
-            self.quantity = new_quantity
-            rate = Fraction(new_quantity, old_quantity)
-        else:
-            self.quantity *= new_quantity
-            rate = new_quantity
-        for rsr, node in self.sockets_in.items():
-            if node is not None:
-                node.adjust_quantity(rate.numerator,rate.denominator)
-        return new_quantity
+        return nnode        
     
     def _substitute_node(self,node):
         res = self.resource
@@ -167,27 +365,46 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
         node.sockets_out[self.resource] = target  
         if target is not None:
             target.retarget(self,node)
-
         self.remove()
         return node
     
+    def _substitute_merger(self,obj):
+        res = obj.resource
+        q = Fraction(self.recipe.output_map[res]*self.quantity,self.recipe.processing_time)
+        merger = MergerNode(res,obj.ratio,parent = self.parent,output=self.sockets_out[res])
+        cpy = self.copy()
+        merger.set_top(cpy)
+        merger.adjust_quantity(resource = res,resource_target = q)
+        target = self.sockets_out[res]
+        if target is not None:
+            target.retarget(self,merger)
+            cpy.sockets_out[merger.resource] = merger
+        self.remove()
+        return merger
+
     def substitute(self,obj):
         #if type(obj) is ProductionGraph:
         #    self._substitute_graph(obj)
-        if hasattr(obj,"terminal"):
-            obj.terminal = self.terminal
         if isinstance(obj,Recipe):
             return self._substitute_recipe(obj)
-        if isinstance(obj,ProductionGraphRecipeNode):
+        if isinstance(obj,RecipeNode):
+            if hasattr(obj,"terminal"):
+                obj.terminal = self.terminal
             return self._substitute_node(obj.copy(self.parent))
+        if isinstance(obj,MergerNode):
+            return self._substitute_merger(obj)
         raise NotImplementedError("Substitution not implemented for type %s"%type(obj))
-    
-    def remove(self):
-        if self.parent:
-            self.parent.remove(self)
-        for val in self.sockets_in.values():
-            if type(val) is ProductionGraphNode:
-                val.remove()
+        
+    def adjust_quantity(self,numerator=1,denominator=1,resource = None, resource_target = None, fset = False):
+        if fset:
+            new_quantity = Fraction(numerator,denominator)
+        else:
+            new_quantity = resource_target / Fraction(self.recipe.output_map[resource],self.recipe.processing_time)
+        self.quantity = new_quantity
+        for rsr, node in self.sockets_in.items():
+            if node is not None:
+                node.adjust_quantity(resource = rsr, resource_target = self.recipe.input_map[rsr]*self.quantity/self.recipe.processing_time)
+        return new_quantity
                 
     def copy(self, new_parent = None):
         if new_parent is None:
@@ -204,11 +421,6 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
                 nnode.sockets_in[key] = copied_input
                 copied_input.sockets_out[key] = nnode
         return nnode
-    
-    def retarget(self,old,new):
-        for key,val in self.sockets_in.items():
-            if val == old:
-                self.sockets_in[key] = new
 
     def header(self,output = None):
         result = ""
@@ -336,25 +548,17 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
                 cumulative[recipe] = 0
             cumulative[recipe] += amount
         return cumulative
-    
-    def collect(self):
-        nodes = self.__collect__(set())
-        nodes = list(nodes)
-        reverse_nodes = {node:ix for ix, node in enumerate(nodes)}
-        return [
-                   {"recipe":node.recipe.fullname,
-                    "qNum":node.quantity.numerator,
-                    "qDenom":node.quantity.denominator,
-                    "resource":node.resource.name if node.resource else "",
-                    "terminal":node.terminal,
-                    "in":{sin.name:reverse_nodes[node] for sin,node in node.sockets_in.items() if node},
-                    "out":{sout.name:reverse_nodes[node] for sout,node in node.sockets_out.items() if node}
-                    } 
-                for node in nodes if node
-               ]
-        
-    def pack(self):
-       return self.collect()
+   
+    def __pack__(self,nodes,reverse_nodes):
+        return {"recipe":self.recipe.fullname,
+         "qNum":self.quantity.numerator,
+         "qDenom":self.quantity.denominator,
+         "resource":self.resource.name if self.resource else "",
+         "terminal":self.terminal,
+         "in":{sin.name:reverse_nodes[node] for sin,node in self.sockets_in.items() if node},
+         "out":{sout.name:reverse_nodes[node] for sout,node in self.sockets_out.items() if node},
+         "type":"Recipe"
+         } 
    
     @staticmethod 
     def unpack(data):
@@ -365,39 +569,25 @@ class ProductionGraphRecipeNode(ProductionGraphNode):
             recipe = CyclicalRecipes[recipe_fullname]
         resource = Resources[data["resource"]] if data["resource"] else None
         quantity = Fraction(data["qNum"],data["qDenom"])
-        return ProductionGraphRecipeNode(recipe, resource = resource, quantity = quantity)
+        return RecipeNode(recipe, resource = resource, quantity = quantity)
+
+
+    def set_sockets(self,entry,nodelist):
+        for res,target in entry["in"].items():
+            resource = Resources[res]
+            self.sockets_in[resource] = nodelist[target]
+        for res,target in entry["out"].items():
+            resource = Resources[res]
+            self.sockets_out[resource] = nodelist[target]
     
-    @staticmethod
-    def UnpackNetwork(data):
-        terminal = None
-        nodes = [ProductionGraphRecipeNode.unpack(entry) for entry in data]
-        for entry,node in zip(data,nodes):
-            for res,target in entry["in"].items():
-                resource = Resources[res]
-                node.sockets_in[resource] = nodes[target]
-            for res,target in entry["out"].items():
-                resource = Resources[res]
-                node.sockets_out[resource] = nodes[target]
-            node.terminal = entry["terminal"]
-            if node.terminal:
-                terminal = node
-        return terminal
+    def retarget(self,old,new):
+        for key,val in self.get_input_sockets():
+            if val == old:
+                self.sockets_in[key] = new
     
-    def __collect__(self,found = None):
-        if found is None:
-            found = set()
-        found.add(self)
-        for res,endpoint in self.sockets_out.items():
-            if endpoint and endpoint not in found: endpoint.__collect__(found)
-        for res,endpoint in self.sockets_in.items():
-            if endpoint and endpoint not in found: endpoint.__collect__(found)
-        return found
-    
-    def __hash__(self):
-        return hash(repr(self))
 
             
-BaseGraphs = {recipe:ProductionGraphRecipeNode(recipe,resource = resource)
+BaseGraphs = {recipe:RecipeNode(recipe,resource = resource)
               for resource in Recipes.recipes.keys()
               for recipe in Recipes.recipes[resource] 
               }
@@ -423,7 +613,7 @@ if __name__ in "__main__":
     from Recipes import ClosedRecipe
     with open(r'D:/Oddsparks/Scripts/Oddsparks-Production-Editor/test_recipes/Closed Coral.json') as inf:
         jn = json.load(inf)
-        g = ProductionGraphRecipeNode.UnpackNetwork(jn)
+        g = RecipeNode.UnpackNetwork(jn)
         r = ClosedRecipe(g)
 """
     for r in BaseGraphs:
