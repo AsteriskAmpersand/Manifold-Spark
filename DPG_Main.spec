@@ -7,7 +7,7 @@ a = Analysis(
     binaries=[],
     datas=[('Resources.dat','.'),('Facility.dat','.'),
 			('ManifoldSpark.ico','.'),('OpenSans-VariableFont_wdth,wght.ttf','.')],
-    hiddenimports=[],
+    hiddenimports=["pywin32","win32gui"],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
