@@ -204,7 +204,8 @@ class MergerNode(ProductionGraphNode):
                     inputs[self.resource] += Fraction(node.recipe.output_map[res]*node.quantity,node.recipe.processing_time)
                 else:
                     inps = node.total_inputs()
-                    inputs[self.resource] += inps[self.resource]
+                    for res in inps:
+                        inputs[res] += inps[res]
         return inputs
                 
     def total_outputs(self):

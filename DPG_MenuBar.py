@@ -184,4 +184,27 @@ if __name__ in "__main__":
     CyclicalRecipes["[Stellar Seed Closure [Stellar Ice Consumed]] " + cr.fullname] = cr
     g = _import_graph("./test_recipes/Stellar Leaves Closure.json")
     g.closure_equivalence(Resources["Stellar Leaves"])
+    dependencies = ["Aether Apple Structural",
+                    "Copper Seed Closure",
+                    "Coral Seed Closure",
+                    "Fireshroom Cluster Closure",
+                    "Greenhouse leaves Closure",
+                    "Stellar Leaves Closure",
+                    "Stellar Seed Closure [Stellar Ice Consumed]"]
+    fails = dependencies
+    nfail = 0
+    while len(fails) != nfail:
+        nfail = len(fails)
+        new = []
+        for file in fails:
+            try:
+                g = _import_graph('./test_recipes/%s.json'%file)
+                cr = ClosedRecipe(g)
+                CyclicalRecipes["[%s] "%file + cr.fullname] = cr
+            except:
+                new.append(file)
+        fail = new
+    
+    g = _import_graph('./test_recipes/Aether Apple Structural.json')
+    print(g.serialize_closure())
     
