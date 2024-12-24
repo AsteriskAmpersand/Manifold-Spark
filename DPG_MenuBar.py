@@ -176,4 +176,10 @@ def visual_menubar():
             dpg.add_menu_item(label="Closure", callback = serialize)
             
 if __name__ in "__main__":
-    print(_import_graph('./test_recipes/Test.json').serialize())
+    from Resources import Resources
+    g = _import_graph('./test_recipes/Stellar Seed Closure [Stellar Ice Consumed].json')
+    cr = ClosedRecipe(g)
+    CyclicalRecipes["[Stellar Seed Closure [Stellar Ice Consumed]] " + cr.fullname] = cr
+    g = _import_graph("./test_recipes/Stellar Leaves Closure.json")
+    g.closure_equivalence(Resources["Stellar Leaves"])
+    
