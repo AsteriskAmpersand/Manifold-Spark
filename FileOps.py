@@ -23,7 +23,9 @@ pathmem = application_path
 
 def get_folder():
     global pathmem
+    root = Tk()
     path = askdirectory(title='Select Folder',initialdir = pathmem)
+    root.destroy()
     if path:
         pathmem = path
     return path

@@ -554,7 +554,7 @@ class RecipeNode(ProductionGraphNode):
          "qNum":self.quantity.numerator,
          "qDenom":self.quantity.denominator,
          "resource":self.resource.name if self.resource else "",
-         "terminal":self.terminal,
+         "terminal":self.terminal if hasattr(self,"terminal") else False,
          "in":{sin.name:reverse_nodes[node] for sin,node in self.sockets_in.items() if node},
          "out":{sout.name:reverse_nodes[node] for sout,node in self.sockets_out.items() if node},
          "type":"Recipe"

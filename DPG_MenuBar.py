@@ -58,6 +58,8 @@ def import_graph():
             except KeyError as e:
                 errors.append(inpath)
                 error_stack.append(e)
+            except json.JSONDecodeError:
+                prompt.infobox("JSON Load Error %s"%inpath)
         inpaths = errors
         #Remove for nicer error printing
     if not inpaths:
