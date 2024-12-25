@@ -53,6 +53,24 @@ TextRecipe(
     processing_time = 60
     )
 
+#Full Ore Miner
+TextRecipe(
+    facility = 'Overclocked Ore Miner',
+    output = "Copper Ore",
+    inputs = [],
+    processing_time = 4,
+    )
+
+#Ore Miner production speed is given by 24/(level+1)
+
+#Depleted Ore Miner
+TextRecipe(
+    facility = 'Overclocked  Ore Miner (Depleted)',
+    output = "Copper Ore",
+    inputs = [],
+    processing_time = 24
+    )
+
 TextRecipe(
     facility = 'Sawbench',
     output = "Timber",

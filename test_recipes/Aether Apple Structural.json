@@ -1,53 +1,108 @@
 [
   {
     "recipe": "[Stellar Leaves Closure] Cyclical Recipe [17 Volcanic Soil -> 13 Stellar Leaves + 5 Stone]",
-    "qNum": 17,
-    "qDenom": 13,
+    "qNum": 255,
+    "qDenom": 52,
     "resource": "Stellar Leaves",
     "terminal": false,
     "in": {
       "Volcanic Soil": 13
     },
     "out": {
-      "Stellar Leaves": 18
+      "Stellar Leaves": 7
     },
     "type": "Recipe"
   },
   {
-    "recipe": "Manual Collection per Second [ -> 1 Volcanic Soil]",
-    "qNum": 85,
-    "qDenom": 832,
-    "resource": "Volcanic Soil",
-    "terminal": false,
-    "in": {},
-    "out": {
-      "Volcanic Soil": 5
-    },
-    "type": "Recipe"
-  },
-  {
-    "recipe": "[Fireshroom Cluster Closure] Cyclical Recipe [2 Stellar Leaves -> 1 Fireshroom Cluster + 10 Lava Cap]",
-    "qNum": 30,
-    "qDenom": 1,
-    "resource": "Fireshroom Cluster",
+    "recipe": "Arboretum Feeder [400 Coral Seed + 100 Lava Cap -> 5 Geode Cluster]",
+    "qNum": 153,
+    "qDenom": 26,
+    "resource": "Geode Cluster",
     "terminal": false,
     "in": {
-      "Stellar Leaves": 19
+      "Lava Cap": 2,
+      "Coral Seed": 10
     },
     "out": {
-      "Fireshroom Cluster": 6
+      "Geode Cluster": 13
     },
     "type": "Recipe"
   },
   {
     "recipe": "Manual Collection per Second [ -> 1 Lava Cap]",
-    "qNum": 9,
-    "qDenom": 80,
+    "qNum": 153,
+    "qDenom": 3328,
     "resource": "Lava Cap",
     "terminal": false,
     "in": {},
     "out": {
-      "Lava Cap": 17
+      "Lava Cap": 1
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Geode Breaker [3 Geode Cluster -> 200/3 Coal + 200/3 Copper Ore + 200/3 Glowshroom + 200 Volcanic Soil]",
+    "qNum": 1071,
+    "qDenom": 4160,
+    "resource": "Volcanic Soil",
+    "terminal": false,
+    "in": {
+      "Geode Cluster": 11
+    },
+    "out": {
+      "Volcanic Soil": 31
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Lava Cap]",
+    "qNum": 357,
+    "qDenom": 16640,
+    "resource": "Lava Cap",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Lava Cap": 11
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Cutter [4 Leaves -> 2 Fertiliser]",
+    "qNum": 45,
+    "qDenom": 8,
+    "resource": "Fertiliser",
+    "terminal": false,
+    "in": {
+      "Leaves": 20
+    },
+    "out": {
+      "Fertiliser": 12
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Coral Seed]",
+    "qNum": 63,
+    "qDenom": 80,
+    "resource": "Coral Seed",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Coral Seed": 21
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "[Fireshroom Cluster Closure] Cyclical Recipe [2 Stellar Leaves -> 1 Fireshroom Cluster + 10 Lava Cap]",
+    "qNum": 15,
+    "qDenom": 1,
+    "resource": "Fireshroom Cluster",
+    "terminal": false,
+    "in": {
+      "Stellar Leaves": 0
+    },
+    "out": {
+      "Fireshroom Cluster": 17
     },
     "type": "Recipe"
   },
@@ -58,91 +113,48 @@
     "resource": "Aether Apple",
     "terminal": true,
     "in": {
-      "Liquid Fertiliser": 10,
-      "Aether Seed": 14
+      "Liquid Fertiliser": 16,
+      "Aether Seed": 23
     },
     "out": {},
     "type": "Recipe"
   },
   {
-    "recipe": "[Stellar Leaves Closure] Cyclical Recipe [17 Volcanic Soil -> 13 Stellar Leaves + 5 Stone]",
-    "qNum": 85,
-    "qDenom": 26,
-    "resource": "Stellar Leaves",
-    "terminal": false,
-    "in": {
-      "Volcanic Soil": 1
-    },
-    "out": {
-      "Stellar Leaves": 10
-    },
-    "type": "Recipe"
-  },
-  {
-    "resource": "Fireshroom Cluster",
-    "ratio_num": 3,
-    "ratio_denom": 5,
-    "qNum": 5,
-    "qDenom": 32,
-    "in": [
-      2,
-      23
-    ],
-    "out": {
-      "Fireshroom Cluster": 10
-    },
-    "type": "Merger"
-  },
-  {
-    "recipe": "Cutter [1 Aetheric Clump -> 6 Aetheric Pellet]",
-    "qNum": 20,
-    "qDenom": 3,
-    "resource": "Aetheric Pellet",
-    "terminal": false,
-    "in": {
-      "Aetheric Clump": 16
-    },
-    "out": {
-      "Aetheric Pellet": 11
-    },
-    "type": "Recipe"
-  },
-  {
-    "recipe": "Manual Collection per Second [ -> 1 Volcanic Soil]",
-    "qNum": 15,
-    "qDenom": 64,
-    "resource": "Volcanic Soil",
+    "recipe": "Logger [ -> 1 Leaves]",
+    "qNum": 7,
+    "qDenom": 8,
+    "resource": "Leaves",
     "terminal": false,
     "in": {},
     "out": {
-      "Volcanic Soil": 19
+      "Leaves": 19
     },
     "type": "Recipe"
   },
   {
     "recipe": "Manual Collection per Second [ -> 1 Coral Seed]",
-    "qNum": 9,
-    "qDenom": 20,
+    "qNum": 153,
+    "qDenom": 832,
     "resource": "Coral Seed",
     "terminal": false,
     "in": {},
     "out": {
-      "Coral Seed": 17
+      "Coral Seed": 1
     },
     "type": "Recipe"
   },
   {
-    "recipe": "Alchemy Lab [2 Fireshroom Cluster + 1 Stellar Leaves -> 4 Liquid Fertiliser]",
-    "qNum": 5,
-    "qDenom": 1,
-    "resource": "Liquid Fertiliser",
+    "recipe": "Arboretum Feeder [400 Coral Seed + 100 Lava Cap -> 5 Geode Cluster]",
+    "qNum": 357,
+    "qDenom": 130,
+    "resource": "Geode Cluster",
     "terminal": false,
     "in": {
-      "Fireshroom Cluster": 6,
-      "Stellar Leaves": 5
+      "Lava Cap": 4,
+      "Coral Seed": 28
     },
     "out": {
-      "Liquid Fertiliser": 4
+      "Geode Cluster": 3
     },
     "type": "Recipe"
   },
@@ -153,11 +165,112 @@
     "resource": "Aether Flower",
     "terminal": false,
     "in": {
-      "Aetheric Pellet": 7,
-      "Fertiliser": 20
+      "Aetheric Pellet": 18,
+      "Fertiliser": 5
     },
     "out": {
-      "Aether Flower": 14
+      "Aether Flower": 23
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Geode Breaker [3 Geode Cluster -> 200/3 Coal + 200/3 Copper Ore + 200/3 Glowshroom + 200 Volcanic Soil]",
+    "qNum": 459,
+    "qDenom": 832,
+    "resource": "Volcanic Soil",
+    "terminal": false,
+    "in": {
+      "Geode Cluster": 1
+    },
+    "out": {
+      "Volcanic Soil": 0
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Greenhouse [20 Glowshroom + 10 Stellar Fertiliser -> 10 Fireshroom Cluster]",
+    "qNum": 7,
+    "qDenom": 1,
+    "resource": "Fireshroom Cluster",
+    "terminal": false,
+    "in": {
+      "Glowshroom": 26,
+      "Stellar Fertiliser": 22
+    },
+    "out": {
+      "Fireshroom Cluster": 17
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "[Stellar Leaves Closure] Cyclical Recipe [17 Volcanic Soil -> 13 Stellar Leaves + 5 Stone]",
+    "qNum": 85,
+    "qDenom": 26,
+    "resource": "Stellar Leaves",
+    "terminal": false,
+    "in": {
+      "Volcanic Soil": 32
+    },
+    "out": {
+      "Stellar Leaves": 16
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Alchemy Lab [2 Fireshroom Cluster + 1 Stellar Leaves -> 4 Liquid Fertiliser]",
+    "qNum": 5,
+    "qDenom": 1,
+    "resource": "Liquid Fertiliser",
+    "terminal": false,
+    "in": {
+      "Fireshroom Cluster": 17,
+      "Stellar Leaves": 15
+    },
+    "out": {
+      "Liquid Fertiliser": 8
+    },
+    "type": "Recipe"
+  },
+  {
+    "resource": "Fireshroom Cluster",
+    "ratio_num": 3,
+    "ratio_denom": 10,
+    "qNum": 5,
+    "qDenom": 32,
+    "in": [
+      7,
+      14
+    ],
+    "out": {
+      "Fireshroom Cluster": 16
+    },
+    "type": "Merger"
+  },
+  {
+    "recipe": "Cutter [1 Aetheric Clump -> 6 Aetheric Pellet]",
+    "qNum": 20,
+    "qDenom": 3,
+    "resource": "Aetheric Pellet",
+    "terminal": false,
+    "in": {
+      "Aetheric Clump": 30
+    },
+    "out": {
+      "Aetheric Pellet": 12
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Cutter [4 Leaves -> 2 Fertiliser]",
+    "qNum": 21,
+    "qDenom": 8,
+    "resource": "Fertiliser",
+    "terminal": false,
+    "in": {
+      "Leaves": 9
+    },
+    "out": {
+      "Fertiliser": 22
     },
     "type": "Recipe"
   },
@@ -169,19 +282,37 @@
     "terminal": false,
     "in": {},
     "out": {
-      "Leaves": 20
+      "Leaves": 5
     },
     "type": "Recipe"
   },
   {
-    "recipe": "Manual Collection per Second [ -> 1 Volcanic Soil]",
-    "qNum": 17,
-    "qDenom": 416,
-    "resource": "Volcanic Soil",
+    "recipe": "Arboretum Feeder [400 Coral Seed + 100 Lava Cap -> 5 Geode Cluster]",
+    "qNum": 126,
+    "qDenom": 5,
+    "resource": "Geode Cluster",
     "terminal": false,
-    "in": {},
+    "in": {
+      "Lava Cap": 25,
+      "Coral Seed": 6
+    },
     "out": {
-      "Volcanic Soil": 0
+      "Geode Cluster": 26
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Alchemy Lab [4 Fertiliser + 1 Stellar Leaves -> 2 Stellar Fertiliser]",
+    "qNum": 7,
+    "qDenom": 2,
+    "resource": "Stellar Fertiliser",
+    "terminal": false,
+    "in": {
+      "Fertiliser": 19,
+      "Stellar Leaves": 31
+    },
+    "out": {
+      "Stellar Fertiliser": 14
     },
     "type": "Recipe"
   },
@@ -192,22 +323,87 @@
     "resource": "Aether Seed",
     "terminal": false,
     "in": {
-      "Aether Flower": 11
+      "Aether Flower": 12
     },
     "out": {
-      "Aether Seed": 4
+      "Aether Seed": 8
     },
     "type": "Recipe"
   },
   {
-    "recipe": "Manual Collection per Second [ -> 1 Fertiliser]",
-    "qNum": 1,
-    "qDenom": 8,
-    "resource": "Fertiliser",
+    "recipe": "Manual Collection per Second [ -> 1 Coral Seed]",
+    "qNum": 51,
+    "qDenom": 416,
+    "resource": "Coral Seed",
     "terminal": false,
     "in": {},
     "out": {
-      "Fertiliser": 18
+      "Coral Seed": 29
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Lava Cap]",
+    "qNum": 63,
+    "qDenom": 320,
+    "resource": "Lava Cap",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Lava Cap": 21
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Geode Breaker [3 Geode Cluster -> 200/3 Coal + 200/3 Copper Ore + 200/3 Glowshroom + 200 Volcanic Soil]",
+    "qNum": 189,
+    "qDenom": 80,
+    "resource": "Glowshroom",
+    "terminal": false,
+    "in": {
+      "Geode Cluster": 21
+    },
+    "out": {
+      "Glowshroom": 14
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Lava Cap]",
+    "qNum": 51,
+    "qDenom": 1664,
+    "resource": "Lava Cap",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Lava Cap": 29
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Coral Seed]",
+    "qNum": 357,
+    "qDenom": 4160,
+    "resource": "Coral Seed",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Coral Seed": 11
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Arboretum Feeder [400 Coral Seed + 100 Lava Cap -> 5 Geode Cluster]",
+    "qNum": 51,
+    "qDenom": 13,
+    "resource": "Geode Cluster",
+    "terminal": false,
+    "in": {
+      "Lava Cap": 27,
+      "Coral Seed": 24
+    },
+    "out": {
+      "Geode Cluster": 32
     },
     "type": "Recipe"
   },
@@ -219,107 +415,35 @@
     "terminal": false,
     "in": {},
     "out": {
-      "Aetheric Clump": 7
+      "Aetheric Clump": 18
     },
     "type": "Recipe"
   },
   {
-    "recipe": "Arboretum Feeder [400 Coral Seed + 100 Lava Cap -> 5 Geode Cluster]",
-    "qNum": 72,
-    "qDenom": 5,
-    "resource": "Geode Cluster",
-    "terminal": false,
-    "in": {
-      "Lava Cap": 3,
-      "Coral Seed": 9
-    },
-    "out": {
-      "Geode Cluster": 22
-    },
-    "type": "Recipe"
-  },
-  {
-    "recipe": "Alchemy Lab [4 Fertiliser + 1 Stellar Leaves -> 2 Stellar Fertiliser]",
-    "qNum": 2,
-    "qDenom": 1,
-    "resource": "Stellar Fertiliser",
-    "terminal": false,
-    "in": {
-      "Fertiliser": 15,
-      "Stellar Leaves": 0
-    },
-    "out": {
-      "Stellar Fertiliser": 23
-    },
-    "type": "Recipe"
-  },
-  {
-    "recipe": "Greenhouse [10 Stellar Seed + 20 Volcanic Soil -> 20 Stellar Leaves]",
-    "qNum": 15,
-    "qDenom": 2,
+    "recipe": "[Stellar Leaves Closure] Cyclical Recipe [17 Volcanic Soil -> 13 Stellar Leaves + 5 Stone]",
+    "qNum": 119,
+    "qDenom": 52,
     "resource": "Stellar Leaves",
     "terminal": false,
     "in": {
-      "Stellar Seed": 21,
-      "Volcanic Soil": 8
+      "Volcanic Soil": 3
     },
     "out": {
-      "Stellar Leaves": 2
-    },
-    "type": "Recipe"
-  },
-  {
-    "recipe": "Cutter [4 Leaves -> 2 Fertiliser]",
-    "qNum": 45,
-    "qDenom": 8,
-    "resource": "Fertiliser",
-    "terminal": false,
-    "in": {
-      "Leaves": 12
-    },
-    "out": {
-      "Fertiliser": 11
-    },
-    "type": "Recipe"
-  },
-  {
-    "recipe": "Manual Collection per Second [ -> 1 Stellar Seed]",
-    "qNum": 15,
-    "qDenom": 128,
-    "resource": "Stellar Seed",
-    "terminal": false,
-    "in": {},
-    "out": {
-      "Stellar Seed": 19
+      "Stellar Leaves": 22
     },
     "type": "Recipe"
   },
   {
     "recipe": "Geode Breaker [3 Geode Cluster -> 200/3 Coal + 200/3 Copper Ore + 200/3 Glowshroom + 200 Volcanic Soil]",
-    "qNum": 27,
-    "qDenom": 20,
-    "resource": "Glowshroom",
+    "qNum": 153,
+    "qDenom": 416,
+    "resource": "Volcanic Soil",
     "terminal": false,
     "in": {
-      "Geode Cluster": 17
+      "Geode Cluster": 29
     },
     "out": {
-      "Glowshroom": 23
-    },
-    "type": "Recipe"
-  },
-  {
-    "recipe": "Greenhouse [20 Glowshroom + 10 Stellar Fertiliser -> 10 Fireshroom Cluster]",
-    "qNum": 4,
-    "qDenom": 1,
-    "resource": "Fireshroom Cluster",
-    "terminal": false,
-    "in": {
-      "Glowshroom": 22,
-      "Stellar Fertiliser": 18
-    },
-    "out": {
-      "Fireshroom Cluster": 6
+      "Volcanic Soil": 15
     },
     "type": "Recipe"
   }
