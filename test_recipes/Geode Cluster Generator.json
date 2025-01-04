@@ -1,0 +1,67 @@
+[
+  {
+    "recipe": "[Fireshroom Cluster Closure] Cyclical Recipe [2 Stellar Leaves -> 1 Fireshroom Cluster + 10 Lava Cap]",
+    "qNum": 4,
+    "qDenom": 1,
+    "resource": "Lava Cap",
+    "terminal": false,
+    "in": {
+      "Stellar Leaves": 4
+    },
+    "out": {
+      "Lava Cap": 2
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Volcanic Soil]",
+    "qNum": 17,
+    "qDenom": 416,
+    "resource": "Volcanic Soil",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Volcanic Soil": 4
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Arboretum Feeder [400 Coral Seed + 100 Lava Cap -> 5 Geode Cluster]",
+    "qNum": 16,
+    "qDenom": 1,
+    "resource": "Geode Cluster",
+    "terminal": true,
+    "in": {
+      "Lava Cap": 0,
+      "Coral Seed": 3
+    },
+    "out": {},
+    "type": "Recipe"
+  },
+  {
+    "recipe": "[Coral Seed Closure] Cyclical Recipe [ -> 1 Coral Seed + 3/2 Limestone]",
+    "qNum": 12,
+    "qDenom": 1,
+    "resource": "Coral Seed",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Coral Seed": 2
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "[Stellar Leaves Closure] Cyclical Recipe [17 Volcanic Soil -> 13 Stellar Leaves + 5 Stone]",
+    "qNum": 17,
+    "qDenom": 13,
+    "resource": "Stellar Leaves",
+    "terminal": false,
+    "in": {
+      "Volcanic Soil": 1
+    },
+    "out": {
+      "Stellar Leaves": 0
+    },
+    "type": "Recipe"
+  }
+]

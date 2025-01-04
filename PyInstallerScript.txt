@@ -3,3 +3,10 @@ cd Scripts
 activate
 cd ..
 PyInstaller DPG_Main.spec
+
+
+cd /d E:/Manifold-Spark
+cd Scripts
+activate
+cd ..
+PyInstaller DPG_Main.spec

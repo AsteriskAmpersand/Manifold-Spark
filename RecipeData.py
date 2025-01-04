@@ -65,7 +65,7 @@ TextRecipe(
 
 #Depleted Ore Miner
 TextRecipe(
-    facility = 'Overclocked  Ore Miner (Depleted)',
+    facility = 'Overclocked Ore Miner (Depleted)',
     output = "Copper Ore",
     inputs = [],
     processing_time = 24
