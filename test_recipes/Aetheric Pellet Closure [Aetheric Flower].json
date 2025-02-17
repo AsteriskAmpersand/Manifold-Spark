@@ -1,0 +1,81 @@
+[
+  {
+    "recipe": "Cutter [4 Leaves -> 2 Fertiliser]",
+    "qNum": 9,
+    "qDenom": 8,
+    "resource": "Fertiliser",
+    "terminal": false,
+    "in": {
+      "Leaves": 3
+    },
+    "out": {
+      "Fertiliser": 1
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Greenhouse [20 Aetheric Pellet + 30 Fertiliser -> 1 Aether Flower]",
+    "qNum": 1,
+    "qDenom": 1,
+    "resource": "Aether Flower",
+    "terminal": false,
+    "in": {
+      "Aetheric Pellet": 4,
+      "Fertiliser": 0
+    },
+    "out": {
+      "Aether Flower": 5
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Cutter [1 Aetheric Clump -> 6 Aetheric Pellet]",
+    "qNum": 12,
+    "qDenom": 5,
+    "resource": "Aetheric Pellet",
+    "terminal": true,
+    "in": {
+      "Aetheric Clump": 5
+    },
+    "out": {},
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Logger [ -> 1 Leaves]",
+    "qNum": 3,
+    "qDenom": 8,
+    "resource": "Leaves",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Leaves": 0
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Manual Collection per Second [ -> 1 Aetheric Pellet]",
+    "qNum": 1,
+    "qDenom": 16,
+    "resource": "Aetheric Pellet",
+    "terminal": false,
+    "in": {},
+    "out": {
+      "Aetheric Pellet": 1
+    },
+    "type": "Recipe"
+  },
+  {
+    "recipe": "Plant Extractor [1 Aether Flower -> 20 Aether Seed + 6 Aetheric Clump]",
+    "qNum": 1,
+    "qDenom": 5,
+    "resource": "Aetheric Clump",
+    "terminal": false,
+    "in": {
+      "Aether Flower": 1
+    },
+    "out": {
+      "Aetheric Clump": 2
+    },
+    "type": "Recipe"
+  }
+]
