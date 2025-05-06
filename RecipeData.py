@@ -257,7 +257,7 @@ TextRecipe(
     facility = 'Spark Workbench',
     output = "Choppy Spark",
     inputs = [("Stumpy Spark",3),
-              ("Wooden Blade",2)],
+              ("Wooden Blade",1)],
     processing_time = 64
     )
 
